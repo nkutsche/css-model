@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
+    stylesheet="../../main/resources/xsl/css3-model-serializer.xsl">
+    
+    <x:scenario label="Testing function cssm:serialize-property-value" focus="">
+        <x:call function="cssm:serialize-property-value"/>
+        
+        <x:scenario label="without quotes and important">
+            <x:call>
+                <x:param select="false()" position="2"/>
+                <x:param select="false()" position="3"/>
+            </x:call>
+            
+            <x:scenario label="string serialization">
+                <x:call>
+                    <x:param>
+                        <property name="prop" string="value"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="'value'"/>
+            </x:scenario>
+            <x:scenario label="value serialization">
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <value>value1</value>
+                            <value>value2</value>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="'value1 value2 value3'"/>
+            </x:scenario>
+        </x:scenario>
+        
+    </x:scenario>
+    
+</x:description>

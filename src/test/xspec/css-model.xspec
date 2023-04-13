@@ -1,0 +1,1322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
+    stylesheet="../../main/resources/xsl/css3-model-parser.xsl">
+
+    <x:scenario label="Testing function cssm:parse">
+        <x:call function="cssm:parse"/>
+        <x:scenario label="pagemedia rules">
+            <x:scenario label="on top level">
+                <x:scenario label="empty @page">
+                    <x:call>
+                        <x:param select="string(.)">@page {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <property-set/>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="@page with property">
+                    <x:call>
+                        <x:param select="string(.)">@page {property:value}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <property-set>
+                                    <property name="property" value="value"/>
+                                </property-set>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="named @page">
+                    <x:call>
+                        <x:param select="string(.)">@page name {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <select name="name"/>
+                                <property-set/>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="only first @page">
+                    <x:call>
+                        <x:param select="string(.)">@page :first {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <select pseudo="first"/>
+                                <property-set/>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="named first @page">
+                    <x:call>
+                        <x:param select="string(.)">@page name:first {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <select name="name" pseudo="first"/>
+                                <property-set/>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="only first left @page">
+                    <x:call>
+                        <x:param select="string(.)">@page :left:first {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <select pseudo="left first"/>
+                                <property-set/>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+
+                <x:scenario label="multi select @page">
+                    <x:call>
+                        <x:param select="string(.)">@page content:first, index:left {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <select name="content" pseudo="first"/>
+                                <select name="index" pseudo="left"/>
+                                <property-set/>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+            
+            <x:scenario label="areas">
+                <x:scenario label="empty @page / @top-left">
+                    <x:call>
+                        <x:param select="string(.)">@page {
+                                @top-left {}
+                            }</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <property-set/>
+                                <area position="top-left">
+                                    <property-set/>
+                                </area>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="empty @page / @top-left, page with property">
+                    <x:call>
+                        <x:param select="string(.)">@page {
+                                @top-left {}
+                                property:value;
+                            }</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <property-set>
+                                    <property name="property" value="value"/>
+                                </property-set>
+                                <area position="top-left">
+                                    <property-set/>
+                                </area>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="@page / @top-left, top-left with property">
+                    <x:call>
+                        <x:param select="string(.)">@page {
+                                @top-left {property:value;}
+                            }</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <page>
+                                <property-set/>
+                                <area position="top-left">
+                                    <property-set>
+                                        <property name="property" value="value"/>
+                                    </property-set>
+                                </area>
+                            </page>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+            
+        </x:scenario>
+        <x:scenario label="selectors">
+            <x:scenario label="single selector">
+                <x:scenario label="*">
+                    <x:call>
+                        <x:param select="string(.)">* {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 0 0">
+                                    <select/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="element">
+                    <x:call>
+                        <x:param select="string(.)">element {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 0 1">
+                                    <select name="element"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label=".class">
+                    <x:call>
+                        <x:param select="string(.)">.class {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select classes="class"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="#id">
+                    <x:call>
+                        <x:param select="string(.)">#id {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <rule>
+                                <selector specifity="0 1 0 0">
+                                    <select id="id"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="#id">
+                    <x:call>
+                        <x:param select="string(.)">#id1#id2 {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <rule>
+                                <selector specifity="0 2 0 0">
+                                    <select ids="id1 id2"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="element.class">
+                    <x:call>
+                        <x:param select="string(.)">element.class {}</x:param>
+                    </x:call>
+                    <x:expect label="result model object">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 1">
+                                    <select name="element" classes="class"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr]">
+                    <x:call>
+                        <x:param select="string(.)">*[attr] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr = 'value']">
+                    <x:call>
+                        <x:param select="string(.)">*[attr = "value"] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr" equal="value"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr ^= 'prefix']">
+                    <x:call>
+                        <x:param select="string(.)">*[attr ^= "prefix"] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr" prefix="prefix"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr *= 'substring']">
+                    <x:call>
+                        <x:param select="string(.)">*[attr *= "substring"] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr" substring="substring"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr |= 'dash-match']">
+                    <x:call>
+                        <x:param select="string(.)">*[attr |= "dash-match"] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr" dash-match="dash-match"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr ~= 'includes']">
+                    <x:call>
+                        <x:param select="string(.)">*[attr ~= "includes"] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr" includes="includes"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*[attr = indent]">
+                    <x:call>
+                        <x:param select="string(.)">*[attr = indent] {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <attribute name="attr" equal="indent"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:pseudo">
+                    <x:call>
+                        <x:param select="string(.)">*:pseudo {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <pseudo name="pseudo" type="class"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*::pseudo">
+                    <x:call>
+                        <x:param select="string(.)">*::pseudo {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 0 1">
+                                    <select>
+                                        <pseudo name="pseudo" type="element"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:pseudo::pseudo">
+                    <x:call>
+                        <x:param select="string(.)">*:pseudo::pseudo {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 1">
+                                    <select>
+                                        <pseudo name="pseudo" type="class"/>
+                                        <pseudo name="pseudo" type="element"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not(*)">
+                    <x:call>
+                        <x:param select="string(.)">*:not(*) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 0 0">
+                                    <select>
+                                        <not/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not(.class)">
+                    <x:call>
+                        <x:param select="string(.)">*:not(.class) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <not class="class"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not(#id)">
+                    <x:call>
+                        <x:param select="string(.)">*:not(#id) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 1 0 0">
+                                    <select>
+                                        <not id="id"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not([attr = 'value'])">
+                    <x:call>
+                        <x:param select="string(.)">*:not([attr = 'value']) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <not>
+                                            <attribute name="attr" equal="value"/>
+                                        </not>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not(:pseudo)">
+                    <x:call>
+                        <x:param select="string(.)">*:not(:pseudo) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 1 0">
+                                    <select>
+                                        <not>
+                                            <pseudo name="pseudo" type="class"/>
+                                        </not>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not(.class):not(#id)">
+                    <x:call>
+                        <x:param select="string(.)">*:not(.class):not(#id) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 1 1 0">
+                                    <select>
+                                        <not class="class"/>
+                                        <not id="id"/>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*:not(:pseudo1:pseudo2)" pending="seems not to be valid CSS...">
+                    <x:call>
+                        <x:param select="string(.)">*:not(:pseudo1:pseudo2) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 2 0">
+                                    <select>
+                                        <not>
+                                            <pseudo name="pseudo1" type="class"/>
+                                            <pseudo name="pseudo2" type="class"/>
+                                        </not>
+                                    </select>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*@atrule">
+                    <x:call>
+                        <x:param select="string(.)">*@atrule {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 0 1">
+                                    <select at="atrule"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*@atrule1@atrule2">
+                    <x:call>
+                        <x:param select="string(.)">*@atrule1@atrule2 {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 0 2">
+                                    <select at="atrule1 atrule2"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="*(prop:value)" pending="Not sure how to handle this...">
+                    <x:call>
+                        <x:param select="string(.)">*(prop:value) {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="multiple selectors">
+                <x:scenario label="#id1, #id2">
+                    <x:call>
+                        <x:param select="string(.)">#id1, #id2 {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 1 0 0">
+                                    <select id="id1"/>
+                                </selector>
+                                <selector specifity="0 1 0 0">
+                                    <select id="id2"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="axis selector">
+                <x:scenario label=".classP > .classC">
+                    <x:call>
+                        <x:param select="string(.)">.classP > .classC {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 0 2 0">
+                                    <select classes="classP"/>
+                                    <select axis="child" classes="classC"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label=":pseudo + #id">
+                    <x:call>
+                        <x:param select="string(.)">:pseudo + #id {}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="0 1 1 0">
+                                    <select>
+                                        <pseudo name="pseudo" type="class"/>
+                                    </select>
+                                    <select axis="next-following" id="id"/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="properties">
+            <x:scenario label="property:value">
+                <x:call>
+                    <x:param select="string(.)">* {property:value}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="property" value="value"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="quoted property name">
+                <x:call>
+                    <x:param select="string(.)">* {'property name':value}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="property name" value="value"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="property:value1 value2 value3">
+                <x:call>
+                    <x:param select="string(.)">* {property:value1 value2 value3}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="property">
+                                    <value>value1</value>
+                                    <value>value2</value>
+                                    <value>value3</value>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="url-property:url('path/to/file')">
+                <x:call>
+                    <x:param select="string(.)">* {url-property:url('path/to/file')}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="url-property" url="path/to/file"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="url-property:url(bare/url)">
+                <x:call>
+                    <x:param select="string(.)">* {url-property:url(bare/url)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="url-property" url="bare/url"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="hex-property:#007">
+                <x:call>
+                    <x:param select="string(.)">* {hex-property:#007}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="hex-property" hex="000077"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="dim-property:9px">
+                <x:call>
+                    <x:param select="string(.)">* {dim-property:9px}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="dim-property" numeric="9" unit="px"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="dim-property:9%">
+                <x:call>
+                    <x:param select="string(.)">* {dim-property:9%}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="dim-property" numeric="9" unit="%"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="nr-property:9.5">
+                <x:call>
+                    <x:param select="string(.)">* {nr-property:9.50}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="nr-property" numeric="9.5"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="mix-property:1px solid black">
+                <x:call>
+                    <x:param select="string(.)">* {mix-property:1px value 9.50 url('path/to/file') #007}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="mix-property">
+                                    <numeric unit="px">1</numeric>
+                                    <value>value</value>
+                                    <numeric>9.5</numeric>
+                                    <url>path/to/file</url>
+                                    <hex>000077</hex>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="quoted-string:'foo;bar;baz'">
+                <x:call>
+                    <x:param select="string(.)">* {quoted-string:'foo;bar;baz'}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="quoted-string" string="foo;bar;baz"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label='quoted-string:"foo;bar;baz"'>
+                <x:call>
+                    <x:param select="string(.)">* {quoted-string:"foo;bar;baz"}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="quoted-string" string="foo;bar;baz"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label='quoted-seq-string:"foo;" "bar;" "baz"'>
+                <x:call>
+                    <x:param select="string(.)">* {quoted-seq-string:"foo;" "bar;" "baz"}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="quoted-seq-string">
+                                    <string>foo;</string>
+                                    <string>bar;</string>
+                                    <string>baz</string>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            
+            <x:scenario label="escaping string values">
+                <x:scenario label='escaped-string:"\\"'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"\\"}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string="\"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label='escaped-string:"\A"'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"\A"}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string="&#xA;"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label='escaped-string:"\n"'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"\n"}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string="&#xA;"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label='escaped-string:"\""'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"\""}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string='"'/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label='escaped-string:"\x"'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"\x"}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string="\x"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label='escaped-string:"\\\x"'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"\\\x"}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string="\\x"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+
+            <x:scenario label="attr-ref:attr(aname)">
+                <x:call>
+                    <x:param select="string(.)">* {attr-ref:attr(aname)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="attr-ref" attr-ref="aname"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            
+            <x:scenario label="func-prop: function-name(value)">
+                <x:call>
+                    <x:param select="string(.)">* {func-prop: function-name(value)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="func-prop">
+                                    <functionCall name="function-name">
+                                        <arg><value>value</value></arg>
+                                    </functionCall>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="func-prop: function-name()">
+                <x:call>
+                    <x:param select="string(.)">* {func-prop: function-name()}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="func-prop">
+                                    <functionCall name="function-name"/>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="func-prop: function-name(value)">
+                <x:call>
+                    <x:param select="string(.)">* {func-prop: function-name(value)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="func-prop">
+                                    <functionCall name="function-name">
+                                        <arg><value>value</value></arg>
+                                    </functionCall>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="nested-func: function1(function2(value))">
+                <x:call>
+                    <x:param select="string(.)">* {nested-func: function1(function2(value))}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="nested-func">
+                                    <functionCall name="function1">
+                                        <arg>
+                                            <functionCall name="function2">
+                                                <arg><value>value</value></arg>
+                                            </functionCall>
+                                        </arg>
+                                    </functionCall>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            
+            <x:scenario label="func-prop: function-name(1px, value, 9.50, url('path/to/file'), #007)">
+                <x:call>
+                    <x:param select="string(.)">* {func-prop: function-name(1px, value, 9.50, url('path/to/file'), #007)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="func-prop">
+                                    <functionCall name="function-name">
+                                        <arg><numeric unit="px">1</numeric></arg>
+                                        <arg><value>value</value></arg>
+                                        <arg><numeric>9.5</numeric></arg>
+                                        <arg><url>path/to/file</url></arg>
+                                        <arg><hex>000077</hex></arg>
+                                    </functionCall>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="func-prop: function-name(value1 value2, value3 value4)">
+                <x:call>
+                    <x:param select="string(.)">* {func-prop: function-name(value1 value2, value3 value4)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="func-prop">
+                                    <functionCall name="function-name">
+                                        <arg><value>value1</value><value>value2</value></arg>
+                                        <arg><value>value3</value><value>value4</value></arg>
+                                    </functionCall>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+                
+            <x:scenario label="content: 'page: ' target-counter(attr(href), page)">
+                <x:call>
+                    <x:param select="string(.)">* {content: 'page: ' target-counter(attr(href), page)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="content">
+                                    <string>page: </string>
+                                    <functionCall name="target-counter">
+                                        <arg><attr-ref>href</attr-ref></arg>
+                                        <arg><value>page</value></arg>
+                                    </functionCall>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="attr-ref-list:attr(aname) attr(aname2) attr(aname3)">
+                <x:call>
+                    <x:param select="string(.)">* {attr-ref-list:attr(aname) attr(aname2) attr(aname3)}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="attr-ref-list">
+                                    <attr-ref>aname</attr-ref>
+                                    <attr-ref>aname2</attr-ref>
+                                    <attr-ref>aname3</attr-ref>
+                                </property>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+            
+            
+            <x:scenario label="property1:property2:value">
+                <x:call>
+                    <x:param select="string(.)">* {property1:property2:value}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="property1" value="value"/>
+                                <property name="property2" value="value"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="property:value">
+                <x:call>
+                    <x:param select="string(.)">* {property:value !important}</x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                    <css>
+                        <rule>
+                            <selector specifity="...">
+                                <select/>
+                            </selector>
+                            <property-set>
+                                <property name="property" value="value" important="true"/>
+                            </property-set>
+                        </rule>
+                    </css>
+                </x:expect>
+            </x:scenario>
+    
+                
+        </x:scenario>
+
+        
+        <x:scenario label="misc">
+            <x:scenario label="Comments">
+                <x:call>
+                    <x:param select="string(.)">
+                        /* some comment */
+                        * {}
+                    </x:param>
+                </x:call>
+                <x:expect label="rule selector">
+                        <css>
+                            <!-- some comment -->
+                            <rule>
+                                <selector specifity="...">
+                                    <select/>
+                                </selector>
+                                <property-set/>
+                            </rule>
+                        </css>
+                    </x:expect>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="Testing function cssm:hex-to-int">
+        <x:call function="cssm:hex-to-int"/>
+        
+        <x:scenario label="A -> 10">
+            <x:call>
+                <x:param select="'A'"/>
+            </x:call>
+            <x:expect label="result = 10" select="10"/>
+        </x:scenario>
+        <x:scenario label="a -> 10">
+            <x:call>
+                <x:param select="'a'"/>
+            </x:call>
+            <x:expect label="result = 10" select="10"/>
+        </x:scenario>
+        <x:scenario label="1 -> 1">
+            <x:call>
+                <x:param select="'1'"/>
+            </x:call>
+            <x:expect label="result = 1" select="1"/>
+        </x:scenario>
+        <x:scenario label="0 -> 0">
+            <x:call>
+                <x:param select="'0'"/>
+            </x:call>
+            <x:expect label="result = 0" select="0"/>
+        </x:scenario>
+        <x:scenario label="f -> 15">
+            <x:call>
+                <x:param select="'f'"/>
+            </x:call>
+            <x:expect label="result = 15" select="15"/>
+        </x:scenario>
+        <x:scenario label="10 -> 16">
+            <x:call>
+                <x:param select="'10'"/>
+            </x:call>
+            <x:expect label="result = 16" select="16"/>
+        </x:scenario>
+        <x:scenario label="ff -> 255">
+            <x:call>
+                <x:param select="'ff'"/>
+            </x:call>
+            <x:expect label="result = 255" select="255"/>
+        </x:scenario>
+        <x:scenario label="100 -> 256">
+            <x:call>
+                <x:param select="'100'"/>
+            </x:call>
+            <x:expect label="result = 256" select="256"/>
+        </x:scenario>
+    </x:scenario>
+    
+
+</x:description>

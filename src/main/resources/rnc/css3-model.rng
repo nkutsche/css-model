@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://www.nkutsche.com/css3-model" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <ref name="css"/>
+  </start>
+  <!-- | printcssquery -->
+  <define name="css">
+    <element name="css">
+      <zeroOrMore>
+        <choice>
+          <ref name="rule"/>
+          <ref name="import"/>
+          <ref name="simple_atrule"/>
+          <ref name="mediaquery"/>
+          <ref name="pageMedia"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="import">
+    <element name="import">
+      <ref name="base"/>
+      <ref name="css"/>
+    </element>
+  </define>
+  <define name="base">
+    <attribute name="base">
+      <data type="anyURI"/>
+    </attribute>
+  </define>
+  <define name="simple_atrule">
+    <choice>
+      <ref name="charset"/>
+      <ref name="namespaceDecl"/>
+    </choice>
+  </define>
+  <define name="charset">
+    <element name="charset">
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </element>
+  </define>
+  <define name="namespaceDecl">
+    <element name="namespace">
+      <attribute name="uri">
+        <data type="anyURI"/>
+      </attribute>
+    </element>
+  </define>
+  <define name="rule">
+    <element name="rule">
+      <oneOrMore>
+        <ref name="selector"/>
+      </oneOrMore>
+      <ref name="property-set"/>
+    </element>
+  </define>
+  <!-- selector -->
+  <define name="selector">
+    <element name="selector">
+      <ref name="specifity"/>
+      <ref name="selectFirst"/>
+      <zeroOrMore>
+        <ref name="select"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="specifity">
+    <attribute name="specifity">
+      <list>
+        <zeroOrMore>
+          <data type="integer"/>
+        </zeroOrMore>
+      </list>
+    </attribute>
+  </define>
+  <define name="selectFirst">
+    <element name="select">
+      <ref name="selectContent"/>
+    </element>
+  </define>
+  <define name="select">
+    <element name="select">
+      <ref name="axis"/>
+      <ref name="selectContent"/>
+    </element>
+  </define>
+  <define name="selectContent">
+    <optional>
+      <ref name="name"/>
+    </optional>
+    <optional>
+      <ref name="classes"/>
+    </optional>
+    <optional>
+      <ref name="idOrIds"/>
+    </optional>
+    <optional>
+      <ref name="at"/>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <ref name="attributeMatch"/>
+        <ref name="pseudo"/>
+        <ref name="not"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="axis">
+    <attribute name="axis">
+      <choice>
+        <value>descendant</value>
+        <value>child</value>
+        <value>following</value>
+        <value>next-following</value>
+      </choice>
+    </attribute>
+  </define>
+  <define name="classes">
+    <attribute name="classes">
+      <list>
+        <zeroOrMore>
+          <data type="string"/>
+        </zeroOrMore>
+      </list>
+    </attribute>
+  </define>
+  <define name="at">
+    <attribute name="at">
+      <list>
+        <zeroOrMore>
+          <data type="string"/>
+        </zeroOrMore>
+      </list>
+    </attribute>
+  </define>
+  <define name="class">
+    <attribute name="class">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="idOrIds">
+    <choice>
+      <ref name="id"/>
+      <ref name="ids"/>
+    </choice>
+  </define>
+  <define name="id">
+    <attribute name="id">
+      <data type="NCName"/>
+    </attribute>
+  </define>
+  <define name="ids">
+    <attribute name="ids">
+      <list>
+        <zeroOrMore>
+          <data type="NCName"/>
+        </zeroOrMore>
+      </list>
+    </attribute>
+  </define>
+  <define name="attributeMatch">
+    <element name="attribute">
+      <ref name="name"/>
+      <optional>
+        <ref name="compareAttributes"/>
+      </optional>
+    </element>
+  </define>
+  <define name="compareAttributes">
+    <choice>
+      <ref name="equal"/>
+      <ref name="substring"/>
+      <ref name="prefix"/>
+      <ref name="suffix"/>
+      <ref name="dash-match"/>
+      <ref name="includes"/>
+    </choice>
+  </define>
+  <define name="equal">
+    <attribute name="equal">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="substring">
+    <attribute name="substring">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="prefix">
+    <attribute name="prefix">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="suffix">
+    <attribute name="suffix">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="dash-match">
+    <attribute name="dash-match">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="includes">
+    <attribute name="includes">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="pseudo">
+    <element name="pseudo">
+      <attribute name="type">
+        <choice>
+          <value>class</value>
+          <value>element</value>
+        </choice>
+      </attribute>
+      <ref name="name"/>
+    </element>
+  </define>
+  <define name="not">
+    <element name="not">
+      <optional>
+        <choice>
+          <ref name="name"/>
+          <ref name="class"/>
+          <ref name="id"/>
+          <ref name="attributeMatch"/>
+          <ref name="pseudo"/>
+        </choice>
+      </optional>
+    </element>
+  </define>
+  <!-- properties -->
+  <define name="property-set">
+    <element name="property-set">
+      <zeroOrMore>
+        <ref name="property"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="property">
+    <element name="property">
+      <optional>
+        <ref name="important"/>
+      </optional>
+      <ref name="name"/>
+      <choice>
+        <ref name="propValueSingle"/>
+        <ref name="propValueList"/>
+      </choice>
+    </element>
+  </define>
+  <define name="name">
+    <attribute name="name">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="important">
+    <attribute name="important">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="propValueSingle">
+    <choice>
+      <ref name="valueSingle"/>
+      <ref name="stringSingle"/>
+      <ref name="urlSingle"/>
+      <ref name="hexSingle"/>
+      <ref name="dimensionSingle"/>
+      <ref name="numSingle"/>
+      <ref name="attrRefSingle"/>
+    </choice>
+  </define>
+  <define name="valueSingle">
+    <attribute name="value">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="stringSingle">
+    <attribute name="string">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="urlSingle">
+    <attribute name="url">
+      <data type="anyURI"/>
+    </attribute>
+  </define>
+  <define name="hexSingle">
+    <attribute name="hex">
+      <ref name="hexType"/>
+    </attribute>
+  </define>
+  <define name="dimensionSingle">
+    <ref name="numSingle"/>
+    <ref name="unit"/>
+  </define>
+  <define name="numSingle">
+    <attribute name="numeric">
+      <data type="double"/>
+    </attribute>
+  </define>
+  <define name="unit">
+    <attribute name="unit">
+      <ref name="unitType"/>
+    </attribute>
+  </define>
+  <define name="attrRefSingle">
+    <attribute name="attr-ref">
+      <data type="NCName"/>
+    </attribute>
+  </define>
+  <define name="propValueList">
+    <oneOrMore>
+      <choice>
+        <ref name="valueListItem"/>
+        <ref name="stringListItem"/>
+        <ref name="urlListItem"/>
+        <ref name="hexListItem"/>
+        <ref name="dimListItem"/>
+        <ref name="numListItem"/>
+        <ref name="attrRefListItem"/>
+        <ref name="functionCall"/>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="valueListItem">
+    <element name="value">
+      <data type="string"/>
+    </element>
+  </define>
+  <define name="stringListItem">
+    <element name="string">
+      <data type="string"/>
+    </element>
+  </define>
+  <define name="urlListItem">
+    <element name="url">
+      <data type="anyURI"/>
+    </element>
+  </define>
+  <define name="hexListItem">
+    <element name="hex">
+      <ref name="hexType"/>
+    </element>
+  </define>
+  <define name="dimListItem">
+    <element name="numeric">
+      <ref name="unit"/>
+      <data type="double"/>
+    </element>
+  </define>
+  <define name="numListItem">
+    <element name="numeric">
+      <data type="double"/>
+    </element>
+  </define>
+  <define name="attrRefListItem">
+    <element name="attr-ref">
+      <data type="NCName"/>
+    </element>
+  </define>
+  <define name="functionCall">
+    <element name="functionCall">
+      <ref name="name"/>
+      <zeroOrMore>
+        <ref name="functionArg"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="functionArg">
+    <element name="arg">
+      <choice>
+        <ref name="propValueSingle"/>
+        <ref name="propValueList"/>
+      </choice>
+    </element>
+  </define>
+  <!-- mediaquery -->
+  <define name="mediaquery">
+    <element name="query">
+      <attribute name="type">
+        <value>media</value>
+      </attribute>
+      <oneOrMore>
+        <ref name="condition"/>
+      </oneOrMore>
+      <zeroOrMore>
+        <ref name="rule"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="condition">
+    <element name="condition">
+      <empty/>
+    </element>
+  </define>
+  <!-- page media -->
+  <define name="pageMedia">
+    <element name="page">
+      <zeroOrMore>
+        <ref name="page-select"/>
+      </zeroOrMore>
+      <ref name="property-set"/>
+      <zeroOrMore>
+        <ref name="areas"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="page-select">
+    <element name="select">
+      <choice>
+        <group>
+          <optional>
+            <ref name="name"/>
+          </optional>
+          <ref name="pseudo-page"/>
+        </group>
+        <ref name="name"/>
+      </choice>
+    </element>
+  </define>
+  <define name="pseudo-page">
+    <attribute name="pseudo">
+      <list>
+        <oneOrMore>
+          <ref name="pseudo-page-values"/>
+        </oneOrMore>
+      </list>
+    </attribute>
+  </define>
+  <define name="pseudo-page-values">
+    <choice>
+      <value>left</value>
+      <value>right</value>
+      <value>first</value>
+      <value>blank</value>
+    </choice>
+  </define>
+  <define name="areas">
+    <element name="area">
+      <ref name="area-position"/>
+      <ref name="property-set"/>
+    </element>
+  </define>
+  <define name="area-position">
+    <attribute name="position">
+      <choice>
+        <value>top-left-corner</value>
+        <value>top-left</value>
+        <value>top-center</value>
+        <value>top-right</value>
+        <value>top-right-corner</value>
+        <value>right-top</value>
+        <value>right-middle</value>
+        <value>right-bottom</value>
+        <value>bottom-right-corner</value>
+        <value>bottom-right</value>
+        <value>bottom-center</value>
+        <value>bottom-left</value>
+        <value>bottom-left-corner</value>
+        <value>left-bottom</value>
+        <value>left-middle</value>
+        <value>left-top</value>
+      </choice>
+    </attribute>
+  </define>
+  <!-- Types -->
+  <define name="hexType">
+    <data type="string">
+      <param name="pattern">[a-fA-F0-9]{1,6}</param>
+    </data>
+  </define>
+  <define name="unitType">
+    <choice>
+      <value>ch</value>
+      <value>cm</value>
+      <value>em</value>
+      <value>ex</value>
+      <value>fr</value>
+      <value>in</value>
+      <value>mm</value>
+      <value>pc</value>
+      <value>pt</value>
+      <value>px</value>
+      <value>Q</value>
+      <value>rem</value>
+      <value>vh</value>
+      <value>vmax</value>
+      <value>vmin</value>
+      <value>vw</value>
+      <value>dpi</value>
+      <value>%</value>
+    </choice>
+  </define>
+</grammar>

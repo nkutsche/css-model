@@ -1,0 +1,1181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    stylesheet="../../main/resources/xsl/css3-model.xsl">
+
+    <x:scenario label="Testing function cssm:rule-match">
+        <x:call function="cssm:rule-match"/>
+        <x:variable name="instance" xmlns="">
+            <html>
+                <body>
+                    <div>
+                        <p></p>
+                    </div>
+                    <div class="class1" id="div2">
+                        <p class="class1 class2 class3" id="p2"/>
+                    </div>
+                    <p id="p3" attr="value"/>
+                </body>
+            </html>
+        </x:variable>
+        <x:scenario label="selector: *">
+            <x:call>
+                <x:param select="cssm:parse(.)//cssm:rule">*{}</x:param>
+            </x:call>
+            <x:scenario label="-> div">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="-> p">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: div">
+            <x:call>
+                <x:param select="cssm:parse(.)//cssm:rule">div {}</x:param>
+            </x:call>
+            <x:scenario label="-> div">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="-> p">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: .class1">
+            <x:call>
+                <x:param select="cssm:parse(.)//cssm:rule">.class1 {}</x:param>
+            </x:call>
+            <x:scenario label="-> div[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[2]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="-> p[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[2]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: #div2">
+            <x:call>
+                <x:param select="cssm:parse(.)//cssm:rule">#div2 {}</x:param>
+            </x:call>
+            <x:scenario label="-> div[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[2]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: div p">
+            <x:call>
+                <x:param select="cssm:parse(.)//cssm:rule">div p {}</x:param>
+            </x:call>
+            <x:scenario label="-> div[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="-> p[3]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[3]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: div p">
+            <x:call>
+                <x:param select="cssm:parse(.)//cssm:rule">div p {}</x:param>
+            </x:call>
+            <x:scenario label="-> div[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="-> p[3]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[3]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: p[attr]">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">p[attr] {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="-> p[3]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[3]"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="selector: p::before">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">p::before {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:variable name="p" select="($instance//p)[1]"/>
+                <x:call>
+                    <x:param position="2" select="$p"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+                <x:scenario label="with ::before pseudo handler">
+                    <x:call>
+                        <x:param position="3" select="function($node, $type){
+                            if($type = 'element') then 'before' else ()
+                            }"/>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: body:hover p">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">body:hover p {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:variable name="p" select="($instance//p)[1]"/>
+                <x:call>
+                    <x:param position="2" select="$p"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+                <x:scenario label="pseudo handler: hover on body">
+                    <x:call>
+                        <x:param position="3" select="function($node, $type){
+                            if($type = 'class' and $node/name() = 'body') then 'hover' else ()
+                            }"/>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: div:first-child p">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">div:first-child p {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:variable name="p" select="($instance//p)[1]"/>
+                <x:call>
+                    <x:param position="2" select="$p"/>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+                <x:scenario label="pseudo handler: no pseudos">
+                    <x:call>
+                        <x:param position="3" select="function($node, $type){}"/>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="-> p[2]">
+                <x:variable name="p" select="($instance//p)[2]"/>
+                <x:call>
+                    <x:param position="2" select="$p"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+                <x:scenario label="pseudo handler: no pseudos">
+                    <x:call>
+                        <x:param position="3" select="function($node, $type){}"/>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="selector: div:first-child:last-of-type p:empty">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">div:first-child:last-of-type p:empty {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="empty p">
+                <x:call>
+                    <x:param position="2" select="//p">
+                        <html xmlns="">
+                            <body>
+                                <div>
+                                    <p/>
+                                </div>
+                            </body>
+                        </html>
+                    </x:param>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="div followed by img">
+                <x:call>
+                    <x:param position="2" select="//p">
+                        <html xmlns="">
+                            <body>
+                                <div>
+                                    <p/>
+                                </div>
+                                <img/>
+                            </body>
+                        </html>
+                    </x:param>
+                </x:call>
+                <x:expect label="should match" select="true()"/>
+            </x:scenario>
+            <x:scenario label="non empty p">
+                <x:call>
+                    <x:param position="2" select="//p">
+                        <html xmlns="">
+                            <body>
+                                <div>
+                                    <p>foo</p>
+                                </div>
+                            </body>
+                        </html>
+                    </x:param>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="div followed by div">
+                <x:call>
+                    <x:param position="2" select="//p">
+                        <html xmlns="">
+                            <body>
+                                <div>
+                                    <p/>
+                                </div>
+                                <div/>
+                            </body>
+                        </html>
+                    </x:param>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+            <x:scenario label="div preceded by h1">
+                <x:call>
+                    <x:param position="2" select="//p">
+                        <html xmlns="">
+                            <body>
+                                <h1></h1>
+                                <div>
+                                    <p/>
+                                </div>
+                            </body>
+                        </html>
+                    </x:param>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="selector with not()">
+            <x:scenario label="*:not(*) - should never match!">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not(*) {}</x:param>
+                </x:call>
+                <x:scenario label="matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p><span/></p>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="*:not(p)">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not(p) {}</x:param>
+                </x:call>
+                <x:scenario label="matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="span" xmlns="">
+                            <span/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="*:not(.class)">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not(.class) {}</x:param>
+                </x:call>
+                <x:scenario label="matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="other-class"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="class"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="*:not(#id)">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not(#id) {}</x:param>
+                </x:call>
+                <x:scenario label="matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p id="other-id"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p id="id"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="*:not([attr = 'value'])">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not([attr = 'value']) {}</x:param>
+                </x:call>
+                <x:scenario label="matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p attr="other-class"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p attr="value"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>
+            <!--<x:scenario label="*:not(:pseudo)">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not(:pseudo) {}</x:param>
+                </x:call>
+                <x:scenario label="matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="other-class"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="class"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>-->
+            <x:scenario label="*:not(.class):not(#id)">
+                <x:call>
+                    <x:param select="cssm:parse(.)//cssm:rule">*:not(.class):not(#id) {}</x:param>
+                </x:call>
+                <x:scenario label="matching as class and not are different">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="other-class" id="other-id"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="matching as class is different">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="other-class" id="id"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="matching as id is different">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="class" id="other-id"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+                <x:scenario label="not matching">
+                    <x:call>
+                        <x:param position="2" select="p" xmlns="">
+                            <p class="class" id="id"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="should not match" select="false()"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+    
+    </x:scenario>
+    
+    
+    
+    
+    
+    
+    <x:scenario label="Testing function cssm:merge-rules">
+        <x:call function="cssm:merge-rules"/>
+        <x:scenario label="a single rule from practice">
+            <x:call>
+                <x:param>
+                     <cssm:rule>
+                        <selector specifity="0 0 0 0" />
+                        <cssm:property-set>
+                           <cssm:property name="text-align" value="center" />
+                        </cssm:property-set>
+                     </cssm:rule>
+                </x:param>
+            </x:call>
+            <x:expect label="returns the unchanged property set">
+                <cssm:property-set>
+                   <cssm:property
+                             name="text-align"
+                             value="center" />
+                </cssm:property-set>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="Testing function cssm:create-matching-rule-catalog">
+        <x:call function="cssm:create-matching-rule-catalog"/>
+        <x:variable name="instance" xmlns="">
+            <html>
+                <body>
+                    <div>
+                        <p></p>
+                    </div>
+                    <div style="prop2:spec-value">
+                        <span/>
+                    </div>
+                    <h1/>
+                    <div>
+                        <b/>
+                    </div>
+                </body>
+            </html>
+        </x:variable>
+        <x:scenario label="for a basic instance">
+            <x:call>
+                <x:param position="2" select="$instance/descendant-or-self::*"/>
+            </x:call>
+            <x:scenario label="css: p {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)">p {prop:spec-value}</x:param>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 0 1">
+                            <select name="p" />
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="css: p {prop:spec-value} * {prop:def-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)">p {prop:spec-value} * {prop:def-value}</x:param>
+                </x:call>
+                <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 0 1">
+                            <select name="p" />
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                    <cssm:rule>
+                        <selector specifity="0 0 0 0">
+                            <select />
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="def-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+                <x:expect label="rule for body" test="$x:result(($instance//body)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 0 0">
+                            <select />
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="def-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="css: p {prop:spec-value} div > * {prop:def-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)">p {prop:spec-value} div > * {prop:def-value}</x:param>
+                </x:call>
+                <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector">
+                    <selector specifity="0 0 0 1">
+                        <select name="p" />
+                     </selector>
+                    <selector specifity="0 0 0 1">
+                        <select name="div" />
+                        <select axis="child" />
+                     </selector>
+                </x:expect>
+                <x:expect label="rule for body" test="$x:result(($instance//body)[1]/generate-id())" select="()"/>
+            </x:scenario>
+
+            <x:scenario label="css: body * {} div + div {}">
+                <x:call>
+                    <x:param select="cssm:parse(.)">body * {} div + div {}</x:param>
+                </x:call>
+                <x:expect label="rule for second div" test="$x:result(($instance//div)[2]/generate-id())/cssm:selector">
+                    <selector specifity="0 0 0 1">
+                        <select name="body" />
+                        <select axis="descendant" />
+                     </selector>
+                    <selector specifity="0 0 0 2">
+                        <select name="div" />
+                        <select axis="next-following" name="div" />
+                     </selector>
+                </x:expect>
+                <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector">
+                    <selector specifity="0 0 0 1">
+                        <select name="body" />
+                        <select axis="descendant" />
+                     </selector>
+                </x:expect>
+            </x:scenario>
+
+            <x:scenario label="css: html div[style]">
+                <x:call>
+                    <x:param select="cssm:parse(.)">html div[style] {}</x:param>
+                </x:call>
+                <x:expect label="rule for second div" test="$x:result(($instance//div)[2]/generate-id())/cssm:selector">
+                    <selector specifity="0 0 1 2">
+                        <select name="html" />
+                        <select axis="descendant" name="div">
+                            <attribute name="style"/>
+                        </select>
+                     </selector>
+                </x:expect>
+                <x:expect label="rule for first div" test="$x:result(($instance//div)[1]/generate-id())/cssm:selector" select="()"/>
+            </x:scenario>
+
+            <x:scenario label="css: body > div + div *">
+                <x:call>
+                    <x:param select="cssm:parse(.)">body > div + div * {}</x:param>
+                </x:call>
+                <x:expect label="rule for span" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector"
+                    select="()"/>
+                <x:expect label="rule for span in first div" test="$x:result(($instance//span)[1]/generate-id())/cssm:selector">
+                    <selector specifity="...">
+                        <select name="body" />
+                        <select axis="child" name="div"/>
+                        <select axis="next-following" name="div"/>
+                        <select axis="descendant"/>
+                     </selector>
+                </x:expect>
+                <x:expect label="rule for b in third div" test="$x:result(($instance//b)[1]/generate-id())/cssm:selector"
+                    select="()"/>
+            </x:scenario>
+
+            <x:scenario label="css: body > div ~ div *">
+                <x:call>
+                    <x:param select="cssm:parse(.)">body > div ~ div * {}</x:param>
+                </x:call>
+                <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector"
+                    select="()"/>
+                <x:expect label="rule for span in first div" test="$x:result(($instance//span)[1]/generate-id())/cssm:selector">
+                    <selector specifity="...">
+                        <select name="body" />
+                        <select axis="child" name="div"/>
+                        <select axis="following" name="div"/>
+                        <select axis="descendant"/>
+                     </selector>
+                </x:expect>
+                <x:expect label="rule for b in third div" test="$x:result(($instance//b)[1]/generate-id())/cssm:selector">
+                    <selector specifity="...">
+                        <select name="body" />
+                        <select axis="child" name="div"/>
+                        <select axis="following" name="div"/>
+                        <select axis="descendant"/>
+                     </selector>
+                </x:expect>
+            </x:scenario>
+
+        </x:scenario>
+        <x:scenario label="for a footnote">
+            <x:variable name="footnote" xmlns="">
+                <html>
+                    <body>
+                        <footer role="footnotes">
+                            <div role="footnote">
+                                <p>This is a footnote</p>
+                            </div>
+                        </footer>
+                    </body>
+                </html>
+            </x:variable>
+            <x:call>
+                <x:param position="2" select="$footnote/descendant-or-self::*"/>
+            </x:call>
+            <x:scenario label="css: div[role = footnote] > p {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)" position="1">
+                        div[role = footnote] > p {prop:spec-value}
+                    </x:param>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 1 2">
+                            <select name="div">
+                               <attribute name="role" equal="footnote" />
+                            </select>
+                            <select axis="child" name="p" />
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="css: div[role = footnote] > *:first-child {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)" position="1">
+                        div[role = footnote] > *:first-child {prop:spec-value}
+                    </x:param>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 2 1">
+                            <select name="div">
+                               <attribute name="role" equal="footnote" />
+                            </select>
+                            <select axis="child" >
+                                <pseudo name="first-child" type="class" />
+                            </select>
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="css: *:first-child::before {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)" position="1">
+                        *:first-child::before {prop:spec-value}
+                    </x:param>
+                    <x:param position="3" select="function($n, $s){function($ntrg, $type){
+                        if($type = 'element' and not($s/following-sibling::*)) then 'before' else ()
+                        }}"/>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="5"/>
+                <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 1 1">
+                            <select>
+                               <pseudo name="first-child" type="class" />
+                               <pseudo name="before" type="element" />
+                            </select>
+                         </selector>
+                         <property-set>
+                            <property name="prop" value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="css: div[role = footnote]  *::before {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)" position="1">
+                        div[role = footnote]  *::before {prop:spec-value}
+                    </x:param>
+                    <x:param position="3" select="function($n, $s){function($ntrg, $type){
+                        if($type = 'element' and not($s/following-sibling::*)) then 'before' else ()
+                        }}"/>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 1 2">
+                            <select name="div">
+                               <attribute name="role"
+                                          equal="footnote" />
+                            </select>
+                            <select axis="descendant">
+                               <pseudo name="before"
+                                       type="element" />
+                            </select>
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="css: div[role = footnote] > *::before {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)" position="1">
+                        div[role = footnote] > *::before {prop:spec-value}
+                    </x:param>
+                    <x:param position="3" select="function($n, $s){function($ntrg, $type){
+                        if($type = 'element' and not($s/following-sibling::*)) then 'before' else ()
+                        }}"/>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 1 2">
+                            <select name="div">
+                               <attribute name="role"
+                                          equal="footnote" />
+                            </select>
+                            <select axis="child">
+                               <pseudo name="before"
+                                       type="element" />
+                            </select>
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+            
+            <x:scenario label="css: div[role = footnote] > *:first-child::before {prop:spec-value}">
+                <x:call>
+                    <x:param select="cssm:parse(.)" position="1">
+                        div[role = footnote] > *:first-child::before {prop:spec-value}
+                    </x:param>
+                    <x:param position="3" select="function($n, $s){function($ntrg, $type){
+                        if($type = 'element' and not($s/following-sibling::*)) then 'before' else ()
+                        }}"/>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 2 2">
+                            <select name="div">
+                               <attribute name="role"
+                                          equal="footnote" />
+                            </select>
+                            <select axis="child">
+                               <pseudo name="first-child"
+                                       type="class" />
+                               <pseudo name="before"
+                                       type="element" />
+                            </select>
+                         </selector>
+                         <property-set>
+                            <property name="prop"
+                                      value="spec-value" />
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
+            
+        </x:scenario>
+        
+        
+        <!--<x:scenario label="css: p {prop:spec-value} * {prop:def-value; prop2:def-value}">
+            <x:call>
+                <x:param select="cssm:parse(.)">p {prop:spec-value} * {prop:def-value; prop2:def-value}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="spec-value"/>
+                        <property name="prop2" value="def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>-->
+    </x:scenario>
+    
+    
+    <x:scenario label="Testing function cssm:effective-properties">
+        <x:call function="cssm:effective-properties"/>
+        <x:variable name="instance" xmlns="">
+            <html>
+                <body>
+                    <div>
+                        <p></p>
+                    </div>
+                    <div style="prop2:spec-value"/>
+                    <div id="with-content">my-content</div>
+                </body>
+            </html>
+        </x:variable>
+        <x:scenario label="css: p {prop:spec-value} * {prop:def-value; prop2:def-value}">
+            <x:call>
+                <x:param select="cssm:parse(.)">p {prop:spec-value} * {prop:def-value; prop2:def-value}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="spec-value"/>
+                        <property name="prop2" value="def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="-> div[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="def-value"/>
+                        <property name="prop2" value="def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="-> div[@style]">
+                <x:call>
+                    <x:param position="2" select="$instance//div[@style]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="def-value"/>
+                        <property name="prop2" value="spec-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="css: p {prop:def-value; prop2:def-value} p {prop:spec-value}">
+            <x:call>
+                <x:param select="cssm:parse(.)">p {prop:def-value; prop2:def-value} p {prop:spec-value}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="spec-value"/>
+                        <property name="prop2" value="def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="css: * {prop:spec-value !important; prop2:def-value} p {prop:def-value}">
+            <x:call>
+                <x:param select="cssm:parse(.)">* {prop:spec-value !important; prop2:def-value} p {prop:def-value}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="spec-value" important="true"/>
+                        <property name="prop2" value="def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="css: *, div p {prop:spec-value} p {prop:def-value; prop2:def-value}">
+            <x:call>
+                <x:param select="cssm:parse(.)">*, div p {prop:spec-value} p {prop:def-value; prop2:def-value}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" value="spec-value"/>
+                        <property name="prop2" value="def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="css: div{prop:attr(style)}">
+            <x:call>
+                <x:param select="cssm:parse(.)">div{prop:attr(style)}</x:param>
+            </x:call>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[2]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="prop2:spec-value"/>
+                        <property name="prop2" value="spec-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="css: div{prop:'static-' attr(style)}">
+            <x:call>
+                <x:param select="cssm:parse(.)">div{prop:"static-" attr(style)}</x:param>
+            </x:call>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[2]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="static-prop2:spec-value"/>
+                        <property name="prop2" value="spec-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="css: div{prop:'static-' -cssm-attr(style, 'def-value')}">
+            <x:call>
+                <x:param select="cssm:parse(.)">div{prop:"static-" -cssm-attr(style, 'def-value')}</x:param>
+            </x:call>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[2]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="static-prop2:spec-value"/>
+                        <property name="prop2" value="spec-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="-> div[3]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[3]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="static-def-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="css: #with-content {prop:-cssm-content()}">
+            <x:call>
+                <x:param select="cssm:parse(.)">#with-content {prop:-cssm-content()}</x:param>
+            </x:call>
+            <x:scenario label="-> div[3]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[3]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="my-content"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="css: #with-content {prop:-cssm-attr(style, -cssm-content())}">
+            <x:call>
+                <x:param select="cssm:parse(.)">div {prop:-cssm-attr(style, -cssm-content())}</x:param>
+            </x:call>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[2]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="prop2:spec-value"/>
+                        <property name="prop2" value="spec-value"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="-> div[3]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[3]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="my-content"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="css: div {prop:-cssm-xpath('//div[@id = \'with-content\']')}">
+            <x:call>
+                <x:param select="cssm:parse(.)">div {prop:-cssm-xpath('//div[@id = \'with-content\']')}</x:param>
+            </x:call>
+            <x:scenario label="-> div[2]">
+                <x:call>
+                    <x:param position="2" select="($instance//div)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="prop" string="my-content"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="css: p {content:'value1-' 'value2'}">
+            <x:call>
+                <x:param select="cssm:parse(.)">p {content:'value1-' 'value2'}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="content" string="value1-value2"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="css: p {content:function(value)}">
+            <x:call>
+                <x:param select="cssm:parse(.)">p {content:function-name(param)}</x:param>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:call>
+                    <x:param position="2" select="($instance//p)[1]"/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="content">
+                            <functionCall name="function-name">
+                                <arg><value>param</value></arg>
+                            </functionCall>
+                        </property>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="merge-handler does not work?">
+            <x:call>
+                <x:param select="cssm:parse(.)">
+                    th {
+                        text-align: center;
+                    }
+                    p.left {
+                        text-align: left;
+                    }
+                </x:param>
+            </x:call>
+            <x:scenario label="p in th with inhertation rule">
+                <x:variable name="inheritation-rule">
+                    <cssm:rule>
+                        <selector specifity="0 0 0 0" />
+                        <cssm:property-set>
+                            <cssm:property name="text-align" value="center" />
+                        </cssm:property-set>
+                    </cssm:rule>
+                </x:variable>
+                <x:call>
+                    <x:param position="2" select="*:th/*:p">
+                        <th>
+                            <p>text</p>
+                        </th>
+                    </x:param>
+                    <x:param position="3" select="
+                        function($rules){
+                        $inheritation-rule,
+                        $rules
+                        }
+            "/>
+                </x:call>
+                <x:expect label="result-property set">
+                    <property-set>
+                        <property name="text-align" value="center"/>
+                    </property-set>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

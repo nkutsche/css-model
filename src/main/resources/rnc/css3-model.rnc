@@ -1,0 +1,173 @@
+datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+default namespace = "http://www.nkutsche.com/css3-model"
+
+start = css
+
+# | printcssquery 
+
+css = element css {(rule | import | simple_atrule | mediaquery | pageMedia)*}
+
+import = element import {base, css}
+
+base = attribute base {xs:anyURI}
+
+simple_atrule = (charset | namespaceDecl)
+
+charset = element charset {attribute name {xs:string}}
+
+namespaceDecl = element namespace {attribute uri {xs:anyURI}}
+
+rule = element rule {selector+, property-set}
+
+# selector
+
+selector = element selector {specifity, selectFirst, select*}
+
+specifity = attribute specifity {list {xs:integer*}}
+
+selectFirst = element select {selectContent}
+
+select = element select {axis, selectContent}
+
+selectContent = name?, classes?, idOrIds?, at?, (attributeMatch | pseudo | not)*
+
+axis = attribute axis {"descendant" | "child" | "following" | "next-following"}
+
+classes = attribute classes {list {xs:string*}}
+
+at = attribute at {list {xs:string*}}
+
+class = attribute class {xs:string}
+
+idOrIds = id | ids
+
+id = attribute id {xs:NCName}
+
+ids = attribute ids {list {xs:NCName*}}
+
+attributeMatch = element attribute {
+    name, compareAttributes?    
+}
+
+compareAttributes = equal
+    | substring
+    | prefix
+    | suffix
+    | dash-match
+    | includes 
+
+equal = attribute equal {xs:string}
+
+substring = attribute substring {xs:string}
+
+prefix = attribute prefix {xs:string}
+
+suffix = attribute suffix {xs:string}
+
+dash-match = attribute dash-match {xs:string}
+
+includes = attribute includes {xs:string}
+
+pseudo = element pseudo {
+    attribute type {"class" | "element"},
+    name
+}
+
+not = element not {
+    (name | class | id | attributeMatch | pseudo)?
+}
+
+#properties
+
+property-set = element property-set {property*}
+
+property = element property {important?, name, (propValueSingle | propValueList)}
+
+name = attribute name {xs:string}
+
+important = attribute important {xs:boolean}
+
+propValueSingle = (valueSingle | stringSingle | urlSingle | hexSingle | dimensionSingle | numSingle | attrRefSingle)
+
+valueSingle = attribute value {xs:string}
+
+stringSingle = attribute string {xs:string}
+
+urlSingle = attribute url {xs:anyURI}
+
+hexSingle = attribute hex {hexType}
+
+dimensionSingle = (numSingle, unit) 
+
+numSingle = attribute numeric {xs:double}
+
+unit = attribute unit {unitType}
+
+attrRefSingle = attribute attr-ref {xs:NCName}
+
+propValueList = (valueListItem | stringListItem | urlListItem | hexListItem | dimListItem | numListItem | attrRefListItem | functionCall)+
+
+valueListItem = element value {xs:string}
+
+stringListItem = element string {xs:string}
+
+urlListItem = element url {xs:anyURI}
+
+hexListItem = element hex {hexType}
+
+dimListItem = element numeric {unit, xs:double}
+
+numListItem = element numeric {xs:double}
+
+attrRefListItem = element attr-ref {xs:NCName}
+
+functionCall = element functionCall {name, (functionArg*)}
+
+functionArg = element arg {(propValueSingle | propValueList)}
+
+# mediaquery
+
+mediaquery = element query {attribute type {'media'}, condition+, rule*}
+
+condition =  element condition {empty}
+
+# page media
+
+pageMedia = element page {page-select*, property-set, areas*}
+
+page-select = element select {(name?, pseudo-page)| name }
+
+pseudo-page = attribute pseudo {list {pseudo-page-values+}}
+
+pseudo-page-values = ('left' | 'right' | 'first' | 'blank')
+
+
+areas = element area {area-position, property-set}
+
+area-position = attribute position {
+'top-left-corner' |
+'top-left' |
+'top-center' |
+'top-right' |
+'top-right-corner' |
+'right-top' |
+'right-middle' |
+'right-bottom' |
+'bottom-right-corner' |
+'bottom-right' |
+'bottom-center' |
+'bottom-left' |
+'bottom-left-corner' |
+'left-bottom' |
+'left-middle' |
+'left-top'
+}
+
+
+
+
+# Types
+
+hexType = xs:string { pattern = "[a-fA-F0-9]{1,6}" }
+
+unitType = ('ch' | 'cm' | 'em' | 'ex' | 'fr' | 'in' | 'mm' | 'pc' | 'pt' | 'px' | 'Q' | 'rem' | 'vh' | 'vmax' | 'vmin' | 'vw' | 'dpi' | '%') 
