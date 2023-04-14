@@ -1,32 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <groupId>com.nkutsche</groupId>
-  <artifactId>css-model</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  
-  
-  <properties>
-      <saxon.version>10.6</saxon.version>
-      
-      <assembly.dir>${project.basedir}/src/assembly</assembly.dir>
-      
-      <resource.subdir>com/nkutsche/css-model</resource.subdir>
-      
-      <run.xspecs>**/*.xspec</run.xspecs>
-  </properties>
-  
-  <dependencies>
-    <dependency>
-      <groupId>net.sf.saxon</groupId>
-      <artifactId>Saxon-HE</artifactId>
-      <version>${saxon.version}</version>
-    </dependency>
-  </dependencies>
-    
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.nkutsche</groupId>
+    <artifactId>css-model</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+
+    <properties>
+        <saxon.version>10.6</saxon.version>
+
+        <assembly.dir>${project.basedir}/src/assembly</assembly.dir>
+
+        <resource.subdir>com/nkutsche/css-model</resource.subdir>
+
+        <run.xspecs>**/*.xspec</run.xspecs>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>${saxon.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <resources>
             <resource>
@@ -41,7 +39,7 @@
             </resource>
         </resources>
         <plugins>
-            
+
             <!--      
       [test]: Executes XSpec tests
       -->
@@ -82,7 +80,7 @@
                     <includes>${run.xspecs}</includes>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>com.nkutsche</groupId>
                 <artifactId>xslt-pkg-maven-plugin</artifactId>
@@ -93,12 +91,14 @@
                             <goal>package-info</goal>
                         </goals>
                         <configuration>
-                            <packagePaths><packagePath>${resource.subdir}/xsl/css3-model-pkg.xsl</packagePath></packagePaths>
+                            <packagePaths>
+                                <packagePath>${resource.subdir}/xsl/css3-model-pkg.xsl</packagePath>
+                            </packagePaths>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-  
+
 </project>
