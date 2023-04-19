@@ -17,7 +17,7 @@
         <xsl:param name="property" as="element(property)"/>
         <xsl:param name="requires-quotes" as="xs:boolean"/>
         <xsl:param name="with-important" as="xs:boolean"/>
-        <xsl:variable name="impAttr" select="$property/@imporant"/>
+        <xsl:variable name="impAttr" select="$property/@important"/>
         <xsl:variable name="valueAttributes" select="$property/(@* except @name)"/>
         <xsl:variable name="valueProvider" select="$valueAttributes | $property/cssm:*"/>
         <xsl:variable name="values" as="xs:string*">
@@ -82,6 +82,12 @@
     </xsl:template>
 
     <xsl:template match="@unit" mode="cssm:serialize"/>
+
+    <xsl:template match="@important[. = 'true']" mode="cssm:serialize">
+        <xsl:sequence select="'!important'"/>
+    </xsl:template>
+    
+    <xsl:template match="@important" mode="cssm:serialize"/>
     
     <xsl:template match="property/functionCall" mode="cssm:serialize">
         <xsl:variable name="arguments" as="xs:string*">
