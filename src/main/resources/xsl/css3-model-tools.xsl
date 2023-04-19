@@ -20,22 +20,6 @@
             <xsl:sequence select="
                 cssm:rule-selector-path($context-roots, $css ! cssm:rule ! cssm:selector, $pseudo-handler-factory)
                 "/>
-            
-            <!--<xsl:for-each select="$css ! cssm:rule">
-                <xsl:variable name="rule" select="."/>
-                
-                
-                <xsl:for-each select="$nodes">
-                    <xsl:variable name="node" select="."/>
-                    
-                    <xsl:sequence select="
-                        if (cssm:rule-match($rule, $node, $pseudo-handler-factory($node))) 
-                        then map{generate-id($node) : $rule} 
-                        else ()
-                        "/>
-                    
-                </xsl:for-each>
-            </xsl:for-each>-->
         </xsl:variable>
         
         <xsl:sequence select="
