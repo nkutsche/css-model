@@ -117,6 +117,11 @@
     <xsl:function name="cssm:merge-rules-with-context" as="element(cssm:property-set)" visibility="final">
         <xsl:param name="matching-rules" as="element(cssm:rule)*"/>
         <xsl:param name="node" as="node()"/>
+        <xsl:sequence select="cssm:merge-rules-with-context($matching-rules, $node, function($rules){$rules})"/>
+    </xsl:function>
+    <xsl:function name="cssm:merge-rules-with-context" as="element(cssm:property-set)" visibility="final">
+        <xsl:param name="matching-rules" as="element(cssm:rule)*"/>
+        <xsl:param name="node" as="node()"/>
         <xsl:param name="merge-handler" as="function(element(cssm:rule)*) as element(cssm:rule)*"/>
         
         <xsl:variable name="matching-rules" select="$matching-rules, $node/@style/cssm:create-pseudo-rule(.)"/>

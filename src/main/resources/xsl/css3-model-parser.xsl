@@ -342,7 +342,12 @@
     
     <xsl:function name="cssm:unit-value" as="map(xs:string, item()?)" visibility="final">
         <xsl:param name="valueUnit" as="xs:string"/>
-        <xsl:param name="defaultUnit" as="xs:string"/>
+        <xsl:sequence select="cssm:unit-value($valueUnit, ())"/>
+    </xsl:function>
+    
+    <xsl:function name="cssm:unit-value" as="map(xs:string, item()?)" visibility="final">
+        <xsl:param name="valueUnit" as="xs:string"/>
+        <xsl:param name="defaultUnit" as="xs:string?"/>
         <xsl:analyze-string select="$valueUnit" regex="^(-?\d+(\.\d+)?([eE]\d+)?)([\D]+)?$">
             <xsl:matching-substring>
                 <xsl:sequence select="
