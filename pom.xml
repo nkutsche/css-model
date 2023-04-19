@@ -5,6 +5,24 @@
     <groupId>com.nkutsche</groupId>
     <artifactId>css-model</artifactId>
     <version>0.1.0-SNAPSHOT</version>
+    
+    <name>CSS XML Model</name>
+    <description>XSLT packages to parse CSS files into an XML model.</description>
+    
+    <scm>
+        <url>https://github.com/nkutsche/css-model</url>
+        <developerConnection>scm:git:https://github.com/nkutsche/css-model</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <developers>
+        <developer>
+            <id>nkutsche</id>
+            <name>Nico Kutscherauer</name>
+            <email>kutscherauer@data2type.de</email>
+        </developer>
+    </developers>
+    
     <properties>
         <saxon.version>10.6</saxon.version>
 
@@ -37,6 +55,21 @@
             </releases>
         </repository>
     </repositories>
+    
+    <distributionManagement>
+        <repository>
+            <id>data2type-nexus</id>
+            <layout>default</layout>
+            <name>d2t public repo</name>
+            <url>https://repo.data2type.de/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>data2type-nexus</id>
+            <layout>default</layout>
+            <name>d2t public repo</name>
+            <url>https://repo.data2type.de/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <resources>
