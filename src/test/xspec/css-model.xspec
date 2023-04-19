@@ -2,6 +2,8 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
     stylesheet="../../main/resources/xsl/css3-model-parser.xsl">
+    
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
 
     <x:scenario label="Testing function cssm:parse">
         <x:call function="cssm:parse"/>

@@ -3,7 +3,9 @@
     xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
     xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     stylesheet="../../main/resources/xsl/css3-model.xsl">
-
+    
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    
     <x:scenario label="Testing function cssm:rule-match">
         <x:call function="cssm:rule-match"/>
         <x:variable name="instance" xmlns="">

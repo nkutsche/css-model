@@ -23,7 +23,22 @@
             <artifactId>Saxon-HE</artifactId>
             <version>${saxon.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.nkutsche</groupId>
+            <artifactId>rng-xsl</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
+    
+    <repositories>
+        <repository>
+            <id>d2t-nexus-public</id>
+            <url>https://repo.data2type.de/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
 
     <build>
         <resources>
@@ -76,6 +91,10 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <addDependenciesToClasspath>true</addDependenciesToClasspath>
+                    <xspecProperties>
+                        <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager</saxon.custom.options>
+                    </xspecProperties>
                     <generateSurefireReport>true</generateSurefireReport>
                     <includes>${run.xspecs}</includes>
                 </configuration>

@@ -9,6 +9,8 @@
     name="http://www.nkutsche.com/css3-model"
     declared-modes="false"
     >
+    <xsl:use-package name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    
     <xsl:import href="css3-model.xsl"/>
     
 </xsl:package>

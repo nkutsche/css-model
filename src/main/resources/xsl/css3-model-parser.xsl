@@ -4,7 +4,6 @@
     xmlns:cssp="http://www.nkutsche.com/css-parser" xmlns:r="http://maxtoroq.github.io/rng.xsl"
     xmlns="http://www.nkutsche.com/css3-model" exclude-result-prefixes="xs math" version="3.0">
     <xsl:import href="css3.xsl"/>
-    <xsl:import href="../rnc-compiler/rng.xsl"/>
 
     <xsl:mode name="cssm:parse" on-no-match="shallow-copy"/>
 
@@ -33,12 +32,9 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:try>
-                    <xsl:variable name="rng-validate" as="xs:boolean">
-                        <xsl:call-template name="r:main">
-                            <xsl:with-param name="schema" select="doc('../rnc/css3-model.rng')"/>
-                            <xsl:with-param name="instance" select="$model"/>
-                        </xsl:call-template>
-                    </xsl:variable>
+                    <xsl:variable name="rng-validate" 
+                        select="r:is-valid($model, doc('../rnc/css3-model.rng'))"
+                        as="xs:boolean"/>
                     <xsl:choose>
                         <xsl:when test="$rng-validate">
                             <xsl:sequence select="$model"/>
