@@ -14,7 +14,12 @@
     <xsl:function name="cssm:parse" as="element()" visibility="final">
         <xsl:param name="css" as="xs:string"/>
         <xsl:param name="stlyesheet-specifity" as="xs:integer?"/>
-        
+        <xsl:sequence select="cssm:parse($css, $stlyesheet-specifity, true())"/>
+    </xsl:function>
+    <xsl:function name="cssm:parse" as="element()" visibility="final">
+        <xsl:param name="css" as="xs:string"/>
+        <xsl:param name="stlyesheet-specifity" as="xs:integer?"/>
+        <xsl:param name="strict" as="xs:boolean"/>
         
         <xsl:variable name="parsed" select="cssp:parse-css($css)"/>
         <xsl:variable name="model" as="element()">
@@ -36,6 +41,9 @@
                         select="r:is-valid($model, doc('../rnc/css3-model.rng'))"
                         as="xs:boolean"/>
                     <xsl:choose>
+                        <xsl:when test="not($strict)">
+                            <xsl:sequence select="$model"/>
+                        </xsl:when>
                         <xsl:when test="$rng-validate">
                             <xsl:sequence select="$model"/>
                         </xsl:when>
