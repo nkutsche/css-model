@@ -48,6 +48,7 @@
         <xsl:variable name="template-content">
             <axsl:variable name="rule" as="element(cssm:rule)">
                 <cssm:rule>
+                    <xsl:attribute name="xml:space" select="'preserve'"/>
                     <xsl:copy-of select="."/>
                     <xsl:copy-of select="../cssm:property-set"/>
                 </cssm:rule>
