@@ -8,4 +8,5 @@
     <xsl:import href="css3-model-parser.xsl"/>
     <xsl:import href="css3-model-tools.xsl"/>
     <xsl:import href="css3-model-serializer.xsl"/>
+    <xsl:import href="css3-model-to-xslt.xsl"/>
 </xsl:stylesheet>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    stylesheet="../../main/resources/xsl/css3-model.xsl">
+    
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    
+    <x:variable name="beforeAfter" select="()"/>
+    
+    <x:scenario label="cssm:template-match" shared="yes">
+        <x:variable name="selector" select="cssm:parse($css)//cssm:rule/cssm:selector"/>
+        <x:call>
+            <x:param select="$selector"/>
+            <x:param select="true()"/>
+            <x:param select="$beforeAfter"/>
+        </x:call>
+        <x:expect label="result match" test=" if($x:result = $match or empty($match) and empty($x:result)) then string($x:result) else ($x:result, $selector)" select="string($match)"/>
+    </x:scenario>
+    
+    <x:scenario label="Testing function cssm:template-match">
+        <x:call function="cssm:template-match"/>
+        <x:scenario label="selector: *">
+            <x:variable name="css">*{}</x:variable>
+            <x:variable name="match">*</x:variable>
+            <x:like label="cssm:template-match"></x:like>
+        </x:scenario>
+        <x:scenario label="selector: div">
+            <x:variable name="css">div {}</x:variable>
+            <x:variable name="match">div</x:variable>
+            <x:like label="cssm:template-match"></x:like>
+        </x:scenario>
+        <x:scenario label="selector: .class1">
+            <x:variable name="css">.class1 {}</x:variable>
+            <x:variable name="match">*[tokenize(@class, '\s') = 'class1']</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: #div2">
+            <x:variable name="css">#div2 {}</x:variable>
+            <x:variable name="match">*[@id = 'div2']</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: #div1#div2">
+            <x:variable name="css">#div1#div2 {}</x:variable>
+            <x:variable name="match">*[@id = 'div1'][@id = 'div2']</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: div p">
+            <x:variable name="css">div p {}</x:variable>
+            <x:variable name="match">div//p</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: div > p">
+            <x:variable name="css">div > p {}</x:variable>
+            <x:variable name="match">div/p</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: div + p">
+            <x:variable name="css">div + p {}</x:variable>
+            <x:variable name="match">p[preceding-sibling::*[1]/self::div]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: div ~ p">
+            <x:variable name="css">div ~ p {}</x:variable>
+            <x:variable name="match">p[preceding-sibling::div]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: sect div + div ~ p">
+            <x:variable name="css">sect div + div ~ p {}</x:variable>
+            <x:variable name="match">sect//p[preceding-sibling::div[preceding-sibling::*[1]/self::div]]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: sect div + div ~ p > foo ~ bar">
+            <x:variable name="css">sect div + div ~ p > foo ~ bar {}</x:variable>
+            <x:variable name="match"
+                >sect//p[preceding-sibling::div[preceding-sibling::*[1]/self::div]]/bar[preceding-sibling::foo]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: p[attr]">
+            <x:variable name="css">p[attr] {}</x:variable>
+            <x:variable name="match">p[@attr]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: p[attr = 'equal']">
+            <x:variable name="css">p[attr = 'equal'] {}</x:variable>
+            <x:variable name="match">p[@attr = 'equal']</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: *[attr *= 'substring']">
+            <x:variable name="css">*[attr *= "substring"] {} {}</x:variable>
+            <x:variable name="match">*[@attr[contains(., 'substring')]]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: *[attr |= 'dash-match']">
+            <x:variable name="css">*[attr |= "dash-match"] {} {}</x:variable>
+            <x:variable name="match">*[@attr[starts-with(., 'dash-match-')]]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: *[attr ~= 'includes']">
+            <x:variable name="css">*[attr ~= "includes"] {} {}</x:variable>
+            <x:variable name="match">*[@attr[tokenize(., '\s') = 'includes']]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: *[attr ^= 'prefix']">
+            <x:variable name="css">*[attr ^= 'prefix'] {} {}</x:variable>
+            <x:variable name="match">*[@attr[starts-with(., 'prefix')]]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector: *[attr $= 'suffix']">
+            <x:variable name="css">*[attr $= 'suffix'] {} {}</x:variable>
+            <x:variable name="match">*[@attr[ends-with(., 'suffix')]]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        
+        <x:scenario label="selector: div:first-child:last-of-type p:empty">
+            <x:variable name="css">div:first-child:last-of-type p:empty {}</x:variable>
+            <x:variable name="match">div[not(preceding-sibling::*)][not(following-sibling::*/name() = name(.))]//p[empty(*|text()[normalize-space(.) != ''])]</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        
+        <x:scenario label="selector: div:first-child p">
+            <x:variable name="css">div:first-child p {}</x:variable>
+            <x:variable name="match">div[not(preceding-sibling::*)]//p</x:variable>
+            <x:like label="cssm:template-match"/>
+        </x:scenario>
+        <x:scenario label="selector with not()">
+            <x:scenario label="*:not(*) - should never match!">
+                <x:variable name="css">*:not(*) {}</x:variable>
+                <x:variable name="match">*[not(self::*)]</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+            <x:scenario label="*:not(p)">
+                <x:variable name="css">*:not(p) {}</x:variable>
+                <x:variable name="match">*[not(self::p)]</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+            <x:scenario label="*:not(.class)">
+                <x:variable name="css">*:not(.class) {}</x:variable>
+                <x:variable name="match">*[not(self::*[tokenize(@class, '\s') = 'class'])]</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+            <x:scenario label="*:not(#id)">
+                <x:variable name="css">*:not(#id) {}</x:variable>
+                <x:variable name="match">*[not(self::*[@id = 'id'])]</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+            <x:scenario label="*:not([attr = 'value'])">
+                <x:variable name="css">*:not([attr = 'value']) {}</x:variable>
+                <x:variable name="match">*[not(self::*[@attr = 'value'])]</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+            <x:scenario label="*:not(.class):not(#id)">
+                <x:variable name="css">*:not(.class):not(#id) {}</x:variable>
+                <x:variable name="match">*[not(self::*[tokenize(@class, '\s') = 'class'])][not(self::*[@id = 'id'])]</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="with before">
+            <x:variable name="beforeAfter" select="'before'"/>
+            <x:scenario label="selector: *">
+                <x:variable name="css">*{}</x:variable>
+                <x:variable name="match" select="()"/>
+                <x:like label="cssm:template-match"></x:like>
+            </x:scenario>
+            <x:scenario label="selector: *::before">
+                <x:variable name="css">*::before{}</x:variable>
+                <x:variable name="match" select="'*'"/>
+                <x:like label="cssm:template-match"></x:like>
+            </x:scenario>
+            <x:scenario label="selector: div::before">
+                <x:variable name="css">div::before{}</x:variable>
+                <x:variable name="match" select="'div'"/>
+                <x:like label="cssm:template-match"></x:like>
+            </x:scenario>
+            <x:scenario label="selector: div">
+                <x:variable name="css">div{}</x:variable>
+                <x:variable name="match" select="()"/>
+                <x:like label="cssm:template-match"></x:like>
+            </x:scenario>
+            <x:scenario label="selector: div::before p">
+                <x:variable name="css">div::before p{}</x:variable>
+                <x:variable name="match" select="()"/>
+                <x:like label="cssm:template-match"></x:like>
+            </x:scenario>
+            <x:scenario label="selector: div::before p::before">
+                <x:variable name="css">div::before p::before{}</x:variable>
+                <x:variable name="match" select="'div[false()]//p'"/>
+                <x:like label="cssm:template-match"></x:like>
+            </x:scenario>
+        </x:scenario>
+
+       <!-- <x:scenario label="selector: p::before">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">p::before {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:variable name="p" select="($instance//p)[1]"/>
+                <x:call>
+                    <x:param position="2" select="$p"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+                <x:scenario label="with ::before pseudo handler">
+                    <x:call>
+                        <x:param position="3" select="function($node, $type){
+                            if($type = 'element') then 'before' else ()
+                            }"/>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="selector: body:hover p">
+            <x:variable name="parsed" select="cssm:parse(.)//cssm:rule">body:hover p {}</x:variable>
+            <x:call>
+                <x:param select="$parsed"/>
+            </x:call>
+            <x:scenario label="-> p[1]">
+                <x:variable name="p" select="($instance//p)[1]"/>
+                <x:call>
+                    <x:param position="2" select="$p"/>
+                </x:call>
+                <x:expect label="should not match" select="false()"/>
+                <x:scenario label="pseudo handler: hover on body">
+                    <x:call>
+                        <x:param position="3" select="function($node, $type){
+                            if($type = 'class' and $node/name() = 'body') then 'hover' else ()
+                            }"/>
+                    </x:call>
+                    <x:expect label="should match" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+
+        -->
+    
+    </x:scenario>
+    
+</x:description>
