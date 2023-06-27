@@ -539,7 +539,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 0 1">
                             <select name="p" />
                          </selector>
@@ -556,18 +556,18 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 0 1">
                             <select name="p" />
-                         </selector>
-                         <property-set>
+                        </selector>
+                        <property-set>
                             <property name="space-value">
                                 <string>foo</string>
                                 <string>
                                     <x:text>   </x:text>
                                 </string>
                             </property>
-                         </property-set>
+                        </property-set>
                     </cssm:rule>
                 </x:expect>
             </x:scenario>
@@ -577,7 +577,7 @@
                     <x:param select="cssm:parse(.)">p {prop:spec-value} * {prop:def-value}</x:param>
                 </x:call>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 0 1">
                             <select name="p" />
                          </selector>
@@ -586,7 +586,7 @@
                                       value="spec-value" />
                          </property-set>
                     </cssm:rule>
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 0 0">
                             <select />
                          </selector>
@@ -597,7 +597,7 @@
                     </cssm:rule>
                 </x:expect>
                 <x:expect label="rule for body" test="$x:result(($instance//body)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 0 0">
                             <select />
                          </selector>
@@ -728,7 +728,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 1 2">
                             <select name="div">
                                <attribute name="role" equal="footnote" />
@@ -750,7 +750,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 2 1">
                             <select name="div">
                                <attribute name="role" equal="footnote" />
@@ -776,7 +776,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="5"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 1 1">
                             <select>
                                <pseudo name="first-child" type="class" />
@@ -799,7 +799,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 1 2">
                             <select name="div">
                                <attribute name="role"
@@ -827,7 +827,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 1 2">
                             <select name="div">
                                <attribute name="role"
@@ -856,7 +856,7 @@
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
-                    <cssm:rule>
+                    <cssm:rule xml:space="...">
                         <selector specifity="0 0 2 2">
                             <select name="div">
                                <attribute name="role"
