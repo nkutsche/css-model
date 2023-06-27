@@ -1,7 +1,10 @@
 ## Release History
 -------------------------------
 
-### Version ${project.version}
+### Current Snapshot Version
+
+
+### Version 0.2
 
 * Performance increase and signiture change on function `cssm:create-matching-rule-catalog`.
 * Adds possibility to skip internal result validation of CSS Model parser
