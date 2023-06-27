@@ -3,7 +3,7 @@
 
     <groupId>com.nkutsche</groupId>
     <artifactId>css-model</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     
     <name>CSS XML Model</name>
     <description>XSLT packages to parse CSS files into an XML model.</description>
@@ -11,7 +11,7 @@
     <scm>
         <url>https://github.com/nkutsche/css-model</url>
         <developerConnection>scm:git:https://github.com/nkutsche/css-model</developerConnection>
-        <tag>releases/v0.2.0</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <developers>
