@@ -550,6 +550,27 @@
                     </cssm:rule>
                 </x:expect>
             </x:scenario>
+            <x:scenario label="css: p {space-value:'foo' '   '}">
+                <x:call>
+                    <x:param select="cssm:parse(.)">p {space-value: "foo" "   "}</x:param>
+                </x:call>
+                <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
+                <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
+                    <cssm:rule>
+                        <selector specifity="0 0 0 1">
+                            <select name="p" />
+                         </selector>
+                         <property-set>
+                            <property name="space-value">
+                                <string>foo</string>
+                                <string>
+                                    <x:text>   </x:text>
+                                </string>
+                            </property>
+                         </property-set>
+                    </cssm:rule>
+                </x:expect>
+            </x:scenario>
 
             <x:scenario label="css: p {prop:spec-value} * {prop:def-value}">
                 <x:call>
