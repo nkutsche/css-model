@@ -7,85 +7,54 @@
     <xsl:function name="cssm:create-matching-rule-catalog" as="map(xs:string, element(cssm:rule)*)" visibility="final">
         <xsl:param name="css" as="element(cssm:css)*"/>
         <xsl:param name="nodes" as="node()*"/>
-        <xsl:sequence select="cssm:create-matching-rule-catalog($css, $nodes, function($node, $select){function($node2, $type){}})"/>
+        <xsl:sequence select="cssm:create-matching-rule-catalog($css, $nodes, false())"/>
+    </xsl:function>
+    <xsl:function name="cssm:create-matching-rule-catalog" as="map(xs:string, element(cssm:rule)*)" visibility="final">
+        <xsl:param name="css" as="element(cssm:css)*"/>
+        <xsl:param name="nodes" as="node()*"/>
+        <xsl:param name="namespace-strict" as="xs:boolean"/>
+        
+        <xsl:sequence select="cssm:create-matching-rule-catalog($css, $nodes, $namespace-strict, ())"/>
     </xsl:function>
     
     <xsl:function name="cssm:create-matching-rule-catalog" as="map(xs:string, element(cssm:rule)*)" visibility="final">
         <xsl:param name="css" as="element(cssm:css)*"/>
         <xsl:param name="nodes" as="node()*"/>
-        <xsl:param name="pseudo-handler-factory" as="function(node(), element(cssm:select)) as function(node(), xs:string) as xs:string*"/>
+        <xsl:param name="namespace-strict" as="xs:boolean"/>
+        <xsl:param name="pseudo-element" as="xs:string?"/>
+        
+        <xsl:variable name="as-xsl" select="cssm:as-xsl($css, $namespace-strict)"/>
+        
 
         <xsl:variable name="css-matches" as="map(xs:string, element(cssm:rule)*)*">
             <xsl:variable name="context-roots" select="$nodes/ancestor-or-self::*[not(parent::*)]"/>
-            <xsl:sequence select="
-                cssm:rule-selector-path($context-roots, $css ! cssm:rule ! cssm:selector, $pseudo-handler-factory)
+            
+            <xsl:variable name="transform-options" select="
+                map{
+                'stylesheet-node' : $as-xsl,
+                'delivery-format' : 'raw'
+                }
                 "/>
+            
+            <xsl:variable name="transform-options" select="
+                if (exists($pseudo-element)) 
+                then map:put($transform-options, 'initial-mode', QName('http://www.nkutsche.com/css3-model', $pseudo-element)) 
+                else $transform-options
+                "/>
+            
+            
+            <xsl:for-each select="$context-roots">
+                <xsl:variable name="transform-options" select="map:put($transform-options, 'source-node', .)"/>
+                <xsl:variable name="transform" select="transform($transform-options)"/>
+                <xsl:sequence select="$transform?*"/>
+            </xsl:for-each>
+            
         </xsl:variable>
         
         <xsl:sequence select="
             $css-matches => map:merge(map{'duplicates' : 'combine'})
             "/>
     </xsl:function>
-    
-    <xsl:function name="cssm:rule-selector-path" as="map(xs:string, element(cssm:rule)*)*">
-        <xsl:param name="context" as="node()*"/>
-        <xsl:param name="selectors" as="element(cssm:selector)*"/>
-        <xsl:param name="pseudo-handler-factory" as="function(node(), element(cssm:select)) as function(node(), xs:string) as xs:string*"/>
-        <xsl:for-each select="$context">
-            <xsl:apply-templates select="." mode="cssm:rule-selector-path">
-                <xsl:with-param name="selectors" select="$selectors" tunnel="yes"/>
-                <xsl:with-param name="pseudo-handler-factory" select="$pseudo-handler-factory" tunnel="yes"/>
-            </xsl:apply-templates>
-        </xsl:for-each>
-    </xsl:function>
-
-
-    <xsl:template match="node()" mode="cssm:rule-selector-path">
-        <xsl:param name="selectors" tunnel="yes" select="()" as="element(cssm:selector)*"/>
-        <xsl:param name="active-selects" tunnel="yes" select="()" as="element(cssm:select)*"/>
-        <xsl:param name="one-time-active-selects" select="()" as="element(cssm:select)*"/>
-        <xsl:param name="pseudo-handler-factory" tunnel="yes" as="function(node(), element(cssm:select)) as function(node(), xs:string) as xs:string*"/>
-        
-        <xsl:variable name="this" select="."/>
-        <xsl:variable name="selects" select="$one-time-active-selects, $active-selects, $selectors/cssm:select[1]"/>
-        <xsl:variable name="matching-selects" select="$selects[cssm:select(., $this, $pseudo-handler-factory($this, .))]"/>
-        
-        <xsl:variable name="matching-last-selects" select="$matching-selects[not(following-sibling::cssm:select)]"/>
-        
-        <xsl:variable name="next-active-selects" select="$matching-selects/following-sibling::cssm:select[1]"/>   
-        
-        
-        
-        <xsl:apply-templates mode="#current">
-            <xsl:with-param name="one-time-active-selects" select="$next-active-selects[@axis = 'child']"/>
-            <xsl:with-param name="active-selects" select="$active-selects, $next-active-selects[@axis = 'descendant']" tunnel="yes"/>
-        </xsl:apply-templates>
-        
-        <xsl:if test="$next-active-selects[@axis = 'following']">
-            <xsl:apply-templates select="following-sibling::*" mode="#current">
-                <xsl:with-param name="one-time-active-selects" select="$next-active-selects[@axis = 'following']"/>
-                <xsl:with-param name="active-selects" select="()" tunnel="yes"/>
-                <xsl:with-param name="selectors" select="()" tunnel="yes"/>
-            </xsl:apply-templates>
-        </xsl:if>
-
-        <xsl:if test="$next-active-selects[@axis = 'next-following']">
-            <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
-                <xsl:with-param name="one-time-active-selects" select="$next-active-selects[@axis = 'next-following']"/>
-                <xsl:with-param name="active-selects" select="()" tunnel="yes"/>
-                <xsl:with-param name="selectors" select="()" tunnel="yes"/>
-            </xsl:apply-templates>
-        </xsl:if>
-        
-        <xsl:for-each select="$matching-last-selects">
-            <xsl:variable name="rule" select="ancestor::cssm:rule"/>
-            <xsl:sequence select="map{
-                    generate-id($this) : $rule
-                }"/>
-        </xsl:for-each>
-        
-    </xsl:template>
-    
     
     
     
