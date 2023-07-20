@@ -126,22 +126,35 @@
     
     <xsl:template match="cssm:select" mode="cssm:template-match" priority="50">
         <xsl:param name="namespace-strict" select="false()" as="xs:boolean" tunnel="yes"/>
-        <xsl:value-of select="
-            if (@name) 
-            then ('*:'[not($namespace-strict)] || @name) 
-            else '*'
-            "/>
+        
+        <xsl:value-of select="cssm:name-match(@name, @namespace)"/>
         <xsl:next-match/>
     </xsl:template>
 
     <xsl:template match="cssm:not" mode="cssm:template-match" priority="50">
         <xsl:param name="namespace-strict" select="false()" as="xs:boolean" tunnel="yes"/>
-        <xsl:variable name="name" select="if (@name) then ('*:'[not($namespace-strict)] || @name) else '*'"/>
+        <xsl:variable name="name" select="cssm:name-match(@name, @namespace)"/>
         <xsl:text>[not(self::</xsl:text>
         <xsl:value-of select="$name"/>
         <xsl:next-match/>
         <xsl:text>)]</xsl:text>
     </xsl:template>
+    
+    <xsl:function name="cssm:name-match" as="xs:string">
+        <xsl:param name="name" as="attribute(name)?"/>
+        <xsl:param name="namespace" as="attribute(namespace)?"/>
+        <xsl:variable name="local" select="($name, '*')[1]"/>
+        <xsl:variable name="ns-matcher" select="
+            if ($namespace) 
+            then 'Q{' || $namespace || '}' 
+            else '*:'
+            "/>
+        <xsl:sequence select="
+            if (not($name | $namespace)) 
+            then '*' 
+            else $ns-matcher || $local
+            "/>
+    </xsl:function>
     
     <xsl:template match="cssm:select[@axis = 'following']" mode="cssm:template-match" priority="45">
         <xsl:variable name="preceding-select">
