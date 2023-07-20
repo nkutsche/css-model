@@ -17,11 +17,13 @@
         
         <xsl:variable name="stlyesheet-specificity" select="($config?stlyesheet-specificity, 0)[1]"/>
         <xsl:variable name="strict" select="($config?strict, true())[1]"/>
+        <xsl:variable name="default-namespace" select="($config?default-namespace, '*')[1]"/>
         
         <xsl:variable name="parsed" select="cssp:parse-css($css)"/>
         <xsl:variable name="model" as="element()">
             <xsl:apply-templates select="$parsed" mode="cssm:parse">
                 <xsl:with-param name="stlyesheet-specificity" select="$stlyesheet-specificity" tunnel="yes"/>
+                <xsl:with-param name="default-namespace" select="$default-namespace" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
         
@@ -59,10 +61,21 @@
     </xsl:function>
 
     <xsl:template match="css" mode="cssm:parse">
+        <xsl:param name="default-namespace" as="xs:string" tunnel="yes"/>
         
         <xsl:variable name="namesapces" as="element(cssm:namespace)*">
             <xsl:apply-templates select="simple_atrule[TOKEN = '@namespace']" mode="#current"/>
         </xsl:variable>
+
+        <xsl:variable name="namesapces" as="element(cssm:namespace)*">
+            <xsl:if test="$default-namespace != '*' and not($namesapces[not(@name)])">
+                <namespace uri="{$default-namespace}"/>
+            </xsl:if>
+            <xsl:sequence select="$namesapces"/>
+        </xsl:variable>
+        
+        
+        
         <xsl:element namespace="http://www.nkutsche.com/css3-model" name="{local-name()}">
             <xsl:apply-templates select="@*" mode="#current"/>
             <xsl:apply-templates select="node()" mode="#current">

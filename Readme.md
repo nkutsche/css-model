@@ -96,6 +96,7 @@ Parses CSS code and returns it in the XML model defined by the [CSS Model schema
 |---|---|---|---|
 | `stlyesheet-specificity` |  This parameter provides a stylesheet specificity value for all `css:selector` elements in the returned model. The specificity is a list of four integer values and is used to calculate the priority of rules by merging them to an effective rule. The first value of this list is the stylesheet specificity and can only set by this parameter. | `xs:integer` | `0` |
 | `strict` | If `true` the result model is validated against the [CSS Model schema](src/main/resources/rnc/css3-model.rnc). Otherwise the validation is skiped. | `xs:boolean` | `true` |
+| `default-namespace` | Element name selectors with no prefix will be applied to this namespace. If the `default-namespace` is `*` they are applied to any namespace. | `xs:string` | `*` |
 
 
 #### Function `cssm:unit-value`
