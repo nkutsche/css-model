@@ -117,7 +117,7 @@ Receives a CSS model (`$css`) and an XML node (`$node`) and returns the effectiv
 
 #### Function `cssm:merge-rules-with-context`
 
-Receives rules of a CSS model (`$matching-rules`) and returns the effective property set for the given context node (`$node`). Therefore it creates a pseudo rule by `$node/@style` attribute if available, applies the context on the rule property values (e.g. resolving CSS function `attr(...)`) and merges the rules to one property set based on there selector specifity. Between context applying and rule merging the `$merge-handler` is applied on the rules.
+Receives rules of a CSS model (`$matching-rules`) and returns the effective property set for the given context node (`$node`). Therefore it creates a pseudo rule by `$node/@style` attribute if available, applies the context on the rule property values (e.g. resolving CSS function `attr(...)`) and merges the rules to one property set based on there selector specificity. Between context applying and rule merging the `$merge-handler` is applied on the rules.
 
 #### Function `cssm:top-right-button-left`
 
