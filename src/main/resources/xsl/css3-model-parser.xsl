@@ -9,22 +9,19 @@
 
     <xsl:function name="cssm:parse" as="element()" visibility="final">
         <xsl:param name="css" as="xs:string"/>
-        <xsl:sequence select="cssm:parse($css, 0)"/>
+        <xsl:sequence select="cssm:parse($css, map{})"/>
     </xsl:function>
     <xsl:function name="cssm:parse" as="element()" visibility="final">
         <xsl:param name="css" as="xs:string"/>
-        <xsl:param name="stlyesheet-specificity" as="xs:integer?"/>
-        <xsl:sequence select="cssm:parse($css, $stlyesheet-specificity, true())"/>
-    </xsl:function>
-    <xsl:function name="cssm:parse" as="element()" visibility="final">
-        <xsl:param name="css" as="xs:string"/>
-        <xsl:param name="stlyesheet-specificity" as="xs:integer?"/>
-        <xsl:param name="strict" as="xs:boolean"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="stlyesheet-specificity" select="($config?stlyesheet-specificity, 0)[1]"/>
+        <xsl:variable name="strict" select="($config?strict, true())[1]"/>
         
         <xsl:variable name="parsed" select="cssp:parse-css($css)"/>
         <xsl:variable name="model" as="element()">
             <xsl:apply-templates select="$parsed" mode="cssm:parse">
-                <xsl:with-param name="stlyesheet-specificity" select="($stlyesheet-specificity, 0)[1]" tunnel="yes"/>
+                <xsl:with-param name="stlyesheet-specificity" select="$stlyesheet-specificity" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
         

@@ -70,7 +70,7 @@ This should enable you to use the following functions in the namespace `http://w
 
 ```xpath
 cssm:parse($css as xs:string) as element()
-cssm:parse($css as xs:string, $stlyesheet-specifity as xs:integer?) as element()
+cssm:parse($css as xs:string, $config as map(xs:string, item()?)?) as element()
 cssm:unit-value($dimension as xs:string) as map(xs:string, item()?)
 cssm:unit-value($dimension as xs:string, $defaultUnit as xs:string?) as map(xs:string, item()?)
 cssm:serialize-property-value(property as element(cssm:property)) as xs:string
@@ -89,7 +89,14 @@ cssm:top-right-button-left($values as item()*, $default as item()?) as map(xs:st
 
 #### Function `cssm:parse`
 
-Parses CSS code and returns it in the XML model defined by the [CSS Model schema](src/main/resources/rnc/css3-model.rnc). The parameter `$stlyesheet-specifity`  (default: `0`) provides a stylesheet specifity value for all `css:selector` elements in the returned model. The specifity is a list of four integer values and is used to calculate the priority of rules by merging them to an effective rule. The first value of this list is the stylesheet specifity and can only set by this parameter.
+Parses CSS code and returns it in the XML model defined by the [CSS Model schema](src/main/resources/rnc/css3-model.rnc). The parameter `config` (default: `map{}`) provides some configuration parameter:
+
+
+| Config field | Meaning | Type | Default |
+|---|---|---|---|
+| `stlyesheet-specificity` |  This parameter provides a stylesheet specificity value for all `css:selector` elements in the returned model. The specificity is a list of four integer values and is used to calculate the priority of rules by merging them to an effective rule. The first value of this list is the stylesheet specificity and can only set by this parameter. | `xs:integer` | `0` |
+| `strict` | If `true` the result model is validated against the [CSS Model schema](src/main/resources/rnc/css3-model.rnc). Otherwise the validation is skiped. | `xs:boolean` | `true` |
+
 
 #### Function `cssm:unit-value`
 
