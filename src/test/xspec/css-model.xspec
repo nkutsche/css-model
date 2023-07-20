@@ -173,7 +173,7 @@
                     <x:expect label="result model object">
                         <css>
                             <rule>
-                                <selector specifity="0 0 0 0">
+                                <selector specificity="0 0 0 0">
                                     <select/>
                                 </selector>
                                 <property-set/>
@@ -188,7 +188,7 @@
                     <x:expect label="result model object">
                         <css>
                             <rule>
-                                <selector specifity="0 0 0 1">
+                                <selector specificity="0 0 0 1">
                                     <select name="element"/>
                                 </selector>
                                 <property-set/>
@@ -203,7 +203,7 @@
                     <x:expect label="result model object">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select classes="class"/>
                                 </selector>
                                 <property-set/>
@@ -218,7 +218,7 @@
                     <x:expect label="result model object">
                         <css>
                             <rule>
-                                <selector specifity="0 1 0 0">
+                                <selector specificity="0 1 0 0">
                                     <select id="id"/>
                                 </selector>
                                 <property-set/>
@@ -233,7 +233,7 @@
                     <x:expect label="result model object">
                         <css>
                             <rule>
-                                <selector specifity="0 2 0 0">
+                                <selector specificity="0 2 0 0">
                                     <select ids="id1 id2"/>
                                 </selector>
                                 <property-set/>
@@ -248,7 +248,7 @@
                     <x:expect label="result model object">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 1">
+                                <selector specificity="0 0 1 1">
                                     <select name="element" classes="class"/>
                                 </selector>
                                 <property-set/>
@@ -263,7 +263,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr"/>
                                     </select>
@@ -280,7 +280,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr" equal="value"/>
                                     </select>
@@ -297,7 +297,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr" prefix="prefix"/>
                                     </select>
@@ -314,7 +314,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr" substring="substring"/>
                                     </select>
@@ -331,7 +331,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr" dash-match="dash-match"/>
                                     </select>
@@ -348,7 +348,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr" includes="includes"/>
                                     </select>
@@ -365,7 +365,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <attribute name="attr" equal="indent"/>
                                     </select>
@@ -382,7 +382,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <pseudo name="pseudo" type="class"/>
                                     </select>
@@ -399,7 +399,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 0 1">
+                                <selector specificity="0 0 0 1">
                                     <select>
                                         <pseudo name="pseudo" type="element"/>
                                     </select>
@@ -416,7 +416,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 1">
+                                <selector specificity="0 0 1 1">
                                     <select>
                                         <pseudo name="pseudo" type="class"/>
                                         <pseudo name="pseudo" type="element"/>
@@ -434,7 +434,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 0 0">
+                                <selector specificity="0 0 0 0">
                                     <select>
                                         <not/>
                                     </select>
@@ -451,7 +451,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <not class="class"/>
                                     </select>
@@ -468,7 +468,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 1 0 0">
+                                <selector specificity="0 1 0 0">
                                     <select>
                                         <not id="id"/>
                                     </select>
@@ -485,7 +485,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <not>
                                             <attribute name="attr" equal="value"/>
@@ -504,7 +504,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 1 0">
+                                <selector specificity="0 0 1 0">
                                     <select>
                                         <not>
                                             <pseudo name="pseudo" type="class"/>
@@ -523,7 +523,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 1 1 0">
+                                <selector specificity="0 1 1 0">
                                     <select>
                                         <not class="class"/>
                                         <not id="id"/>
@@ -541,7 +541,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 2 0">
+                                <selector specificity="0 0 2 0">
                                     <select>
                                         <not>
                                             <pseudo name="pseudo1" type="class"/>
@@ -561,7 +561,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 0 1">
+                                <selector specificity="0 0 0 1">
                                     <select at="atrule"/>
                                 </selector>
                                 <property-set/>
@@ -576,7 +576,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 0 2">
+                                <selector specificity="0 0 0 2">
                                     <select at="atrule1 atrule2"/>
                                 </selector>
                                 <property-set/>
@@ -591,7 +591,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set/>
@@ -608,10 +608,10 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 1 0 0">
+                                <selector specificity="0 1 0 0">
                                     <select id="id1"/>
                                 </selector>
-                                <selector specifity="0 1 0 0">
+                                <selector specificity="0 1 0 0">
                                     <select id="id2"/>
                                 </selector>
                                 <property-set/>
@@ -628,7 +628,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 0 2 0">
+                                <selector specificity="0 0 2 0">
                                     <select classes="classP"/>
                                     <select axis="child" classes="classC"/>
                                 </selector>
@@ -644,7 +644,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="0 1 1 0">
+                                <selector specificity="0 1 1 0">
                                     <select>
                                         <pseudo name="pseudo" type="class"/>
                                     </select>
@@ -665,7 +665,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -682,7 +682,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -699,7 +699,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -720,7 +720,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -737,7 +737,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -754,7 +754,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -771,7 +771,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -788,7 +788,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -805,7 +805,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -822,7 +822,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -845,7 +845,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -862,7 +862,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -880,7 +880,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -903,7 +903,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set>
@@ -920,7 +920,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set>
@@ -937,7 +937,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set>
@@ -954,7 +954,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set>
@@ -971,7 +971,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set>
@@ -988,7 +988,7 @@
                     <x:expect label="rule selector">
                         <css>
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set>
@@ -1007,7 +1007,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1025,7 +1025,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1047,7 +1047,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1067,7 +1067,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1089,7 +1089,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1115,7 +1115,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1140,7 +1140,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1163,7 +1163,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1187,7 +1187,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1210,7 +1210,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1229,7 +1229,7 @@
                 <x:expect label="rule selector">
                     <css>
                         <rule>
-                            <selector specifity="...">
+                            <selector specificity="...">
                                 <select/>
                             </selector>
                             <property-set>
@@ -1256,7 +1256,7 @@
                         <css>
                             <!-- some comment -->
                             <rule>
-                                <selector specifity="...">
+                                <selector specificity="...">
                                     <select/>
                                 </selector>
                                 <property-set/>

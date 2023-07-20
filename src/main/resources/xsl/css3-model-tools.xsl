@@ -105,7 +105,7 @@
         <xsl:param name="css-attribute" as="attribute()"/>
         <xsl:variable name="pseudo-rule" select="'* {' || $css-attribute || '}'"/>
         <rule>
-            <selector specifity="1 0 0 0"/>
+            <selector specificity="1 0 0 0"/>
             <xsl:sequence select="cssm:parse($pseudo-rule)/cssm:rule/cssm:property-set"/>
         </rule>
     </xsl:function>
@@ -115,10 +115,10 @@
         <xsl:variable name="rules" select="$rules/cssm:split-rule(.)"/>
         <xsl:variable name="rules-sorted" as="element(cssm:rule)*">
             <xsl:perform-sort select="$rules">
-                <xsl:sort select="cssm:selector/@specifity/tokenize(., '\s')[1] ! xs:integer(.)" data-type="number"/>
-                <xsl:sort select="cssm:selector/@specifity/tokenize(., '\s')[2] ! xs:integer(.)" data-type="number"/>
-                <xsl:sort select="cssm:selector/@specifity/tokenize(., '\s')[3] ! xs:integer(.)" data-type="number"/>
-                <xsl:sort select="cssm:selector/@specifity/tokenize(., '\s')[4] ! xs:integer(.)" data-type="number"/>
+                <xsl:sort select="cssm:selector/@specificity/tokenize(., '\s')[1] ! xs:integer(.)" data-type="number"/>
+                <xsl:sort select="cssm:selector/@specificity/tokenize(., '\s')[2] ! xs:integer(.)" data-type="number"/>
+                <xsl:sort select="cssm:selector/@specificity/tokenize(., '\s')[3] ! xs:integer(.)" data-type="number"/>
+                <xsl:sort select="cssm:selector/@specificity/tokenize(., '\s')[4] ! xs:integer(.)" data-type="number"/>
             </xsl:perform-sort>
         </xsl:variable>
         <property-set>

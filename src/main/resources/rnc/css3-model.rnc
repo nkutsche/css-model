@@ -21,9 +21,9 @@ rule = element rule {selector+, property-set}
 
 # selector
 
-selector = element selector {specifity, selectFirst, select*}
+selector = element selector {specificity, selectFirst, select*}
 
-specifity = attribute specifity {list {xs:integer*}}
+specificity = attribute specificity {list {xs:integer*}}
 
 selectFirst = element select {selectContent}
 

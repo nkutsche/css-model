@@ -59,15 +59,15 @@
   <!-- selector -->
   <define name="selector">
     <element name="selector">
-      <ref name="specifity"/>
+      <ref name="specificity"/>
       <ref name="selectFirst"/>
       <zeroOrMore>
         <ref name="select"/>
       </zeroOrMore>
     </element>
   </define>
-  <define name="specifity">
-    <attribute name="specifity">
+  <define name="specificity">
+    <attribute name="specificity">
       <list>
         <zeroOrMore>
           <data type="integer"/>

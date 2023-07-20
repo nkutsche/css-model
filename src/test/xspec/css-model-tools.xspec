@@ -494,7 +494,7 @@
             <x:call>
                 <x:param>
                      <cssm:rule>
-                        <selector specifity="0 0 0 0" />
+                        <selector specificity="0 0 0 0" />
                         <cssm:property-set>
                            <cssm:property name="text-align" value="center" />
                         </cssm:property-set>
@@ -540,7 +540,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 0 1">
+                        <selector specificity="0 0 0 1">
                             <select name="p" />
                          </selector>
                          <property-set>
@@ -557,7 +557,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 0 1">
+                        <selector specificity="0 0 0 1">
                             <select name="p" />
                         </selector>
                         <property-set>
@@ -578,7 +578,7 @@
                 </x:call>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 0 1">
+                        <selector specificity="0 0 0 1">
                             <select name="p" />
                          </selector>
                          <property-set>
@@ -587,7 +587,7 @@
                          </property-set>
                     </cssm:rule>
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 0 0">
+                        <selector specificity="0 0 0 0">
                             <select />
                          </selector>
                          <property-set>
@@ -598,7 +598,7 @@
                 </x:expect>
                 <x:expect label="rule for body" test="$x:result(($instance//body)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 0 0">
+                        <selector specificity="0 0 0 0">
                             <select />
                          </selector>
                          <property-set>
@@ -614,10 +614,10 @@
                     <x:param select="cssm:parse(.)">p {prop:spec-value} div > * {prop:def-value}</x:param>
                 </x:call>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector">
-                    <selector specifity="0 0 0 1">
+                    <selector specificity="0 0 0 1">
                         <select name="p" />
                      </selector>
-                    <selector specifity="0 0 0 1">
+                    <selector specificity="0 0 0 1">
                         <select name="div" />
                         <select axis="child" />
                      </selector>
@@ -630,17 +630,17 @@
                     <x:param select="cssm:parse(.)">body * {} div + div {}</x:param>
                 </x:call>
                 <x:expect label="rule for second div" test="$x:result(($instance//div)[2]/generate-id())/cssm:selector">
-                    <selector specifity="0 0 0 1">
+                    <selector specificity="0 0 0 1">
                         <select name="body" />
                         <select axis="descendant" />
                      </selector>
-                    <selector specifity="0 0 0 2">
+                    <selector specificity="0 0 0 2">
                         <select name="div" />
                         <select axis="next-following" name="div" />
                      </selector>
                 </x:expect>
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector">
-                    <selector specifity="0 0 0 1">
+                    <selector specificity="0 0 0 1">
                         <select name="body" />
                         <select axis="descendant" />
                      </selector>
@@ -652,7 +652,7 @@
                     <x:param select="cssm:parse(.)">html div[style] {}</x:param>
                 </x:call>
                 <x:expect label="rule for second div" test="$x:result(($instance//div)[2]/generate-id())/cssm:selector">
-                    <selector specifity="0 0 1 2">
+                    <selector specificity="0 0 1 2">
                         <select name="html" />
                         <select axis="descendant" name="div">
                             <attribute name="style"/>
@@ -669,7 +669,7 @@
                 <x:expect label="rule for span" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector"
                     select="()"/>
                 <x:expect label="rule for span in first div" test="$x:result(($instance//span)[1]/generate-id())/cssm:selector">
-                    <selector specifity="...">
+                    <selector specificity="...">
                         <select name="body" />
                         <select axis="child" name="div"/>
                         <select axis="next-following" name="div"/>
@@ -687,7 +687,7 @@
                 <x:expect label="rule for p" test="$x:result(($instance//p)[1]/generate-id())/cssm:selector"
                     select="()"/>
                 <x:expect label="rule for span in first div" test="$x:result(($instance//span)[1]/generate-id())/cssm:selector">
-                    <selector specifity="...">
+                    <selector specificity="...">
                         <select name="body" />
                         <select axis="child" name="div"/>
                         <select axis="following" name="div"/>
@@ -695,7 +695,7 @@
                      </selector>
                 </x:expect>
                 <x:expect label="rule for b in third div" test="$x:result(($instance//b)[1]/generate-id())/cssm:selector">
-                    <selector specifity="...">
+                    <selector specificity="...">
                         <select name="body" />
                         <select axis="child" name="div"/>
                         <select axis="following" name="div"/>
@@ -729,7 +729,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 1 2">
+                        <selector specificity="0 0 1 2">
                             <select name="div">
                                <attribute name="role" equal="footnote" />
                             </select>
@@ -751,7 +751,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 2 1">
+                        <selector specificity="0 0 2 1">
                             <select name="div">
                                <attribute name="role" equal="footnote" />
                             </select>
@@ -777,7 +777,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="5"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 1 1">
+                        <selector specificity="0 0 1 1">
                             <select>
                                <pseudo name="first-child" type="class" />
                                <pseudo name="before" type="element" />
@@ -800,7 +800,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 1 2">
+                        <selector specificity="0 0 1 2">
                             <select name="div">
                                <attribute name="role"
                                           equal="footnote" />
@@ -828,7 +828,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 1 2">
+                        <selector specificity="0 0 1 2">
                             <select name="div">
                                <attribute name="role"
                                           equal="footnote" />
@@ -857,7 +857,7 @@
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
                     <cssm:rule xml:space="...">
-                        <selector specifity="0 0 2 2">
+                        <selector specificity="0 0 2 2">
                             <select name="div">
                                <attribute name="role"
                                           equal="footnote" />
@@ -1169,7 +1169,7 @@
             <x:scenario label="p in th with inhertation rule">
                 <x:variable name="inheritation-rule">
                     <cssm:rule>
-                        <selector specifity="0 0 0 0" />
+                        <selector specificity="0 0 0 0" />
                         <cssm:property-set>
                             <cssm:property name="text-align" value="center" />
                         </cssm:property-set>

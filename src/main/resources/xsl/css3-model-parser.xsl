@@ -13,18 +13,18 @@
     </xsl:function>
     <xsl:function name="cssm:parse" as="element()" visibility="final">
         <xsl:param name="css" as="xs:string"/>
-        <xsl:param name="stlyesheet-specifity" as="xs:integer?"/>
-        <xsl:sequence select="cssm:parse($css, $stlyesheet-specifity, true())"/>
+        <xsl:param name="stlyesheet-specificity" as="xs:integer?"/>
+        <xsl:sequence select="cssm:parse($css, $stlyesheet-specificity, true())"/>
     </xsl:function>
     <xsl:function name="cssm:parse" as="element()" visibility="final">
         <xsl:param name="css" as="xs:string"/>
-        <xsl:param name="stlyesheet-specifity" as="xs:integer?"/>
+        <xsl:param name="stlyesheet-specificity" as="xs:integer?"/>
         <xsl:param name="strict" as="xs:boolean"/>
         
         <xsl:variable name="parsed" select="cssp:parse-css($css)"/>
         <xsl:variable name="model" as="element()">
             <xsl:apply-templates select="$parsed" mode="cssm:parse">
-                <xsl:with-param name="stlyesheet-specifity" select="($stlyesheet-specifity, 0)[1]" tunnel="yes"/>
+                <xsl:with-param name="stlyesheet-specificity" select="($stlyesheet-specificity, 0)[1]" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
         
@@ -82,7 +82,7 @@
     </xsl:template>
 
     <xsl:template match="selector" mode="cssm:parse">
-        <xsl:param name="stlyesheet-specifity" as="xs:integer" tunnel="yes"/>
+        <xsl:param name="stlyesheet-specificity" as="xs:integer" tunnel="yes"/>
         <xsl:variable name="selects" as="element(cssm:select)*">
             <xsl:for-each-group select="node()" group-starting-with="combinator">
                 
@@ -102,7 +102,7 @@
                 </xsl:apply-templates>
             </xsl:for-each-group>
         </xsl:variable>
-        <selector specifity="{cssm:specifity($stlyesheet-specifity, $selects)}">
+        <selector specificity="{cssm:specificity($stlyesheet-specificity, $selects)}">
             <xsl:sequence select="$selects"/>
         </selector>
     </xsl:template>
@@ -371,7 +371,7 @@
         </xsl:analyze-string>
     </xsl:function>
     
-    <xsl:function name="cssm:specifity" as="xs:integer+">
+    <xsl:function name="cssm:specificity" as="xs:integer+">
         <xsl:param name="global-spec" as="xs:integer"/>
         <xsl:param name="selects" as="element(cssm:select)*"/>
 
