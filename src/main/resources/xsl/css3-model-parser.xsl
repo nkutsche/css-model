@@ -138,12 +138,20 @@
             <xsl:where-populated>
                 <xsl:attribute name="at" select="atrule/IDENT" separator=" "/>
             </xsl:where-populated>
-            <xsl:apply-templates select="type_selector" mode="#current"/>
+            <xsl:apply-templates select="type_selector | universal" mode="#current"/>
             <xsl:apply-templates select="node() except (class | HASH | type_selector | atrule)"
                 mode="#current"/>
         </select>
     </xsl:template>
-
+    
+    
+    <xsl:template match="universal[namespace_prefix]" mode="cssm:parse">
+        <xsl:param name="namespaces" tunnel="yes" as="element(cssm:namespace)*"/>
+        <xsl:apply-templates select="namespace_prefix" mode="cssm:parse"/>
+    </xsl:template>
+        
+    
+    
     <xsl:template match="type_selector" mode="cssm:parse">
         <xsl:param name="namespaces" tunnel="yes" as="element(cssm:namespace)*"/>
         <xsl:choose>
