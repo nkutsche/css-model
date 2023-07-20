@@ -62,12 +62,27 @@
     </xsl:function>
 
     <xsl:template match="css" mode="cssm:parse">
+        
+        <xsl:variable name="namesapces" as="element(cssm:namespace)*">
+            <xsl:apply-templates select="simple_atrule[TOKEN = '@namespace']" mode="#current"/>
+        </xsl:variable>
         <xsl:element namespace="http://www.nkutsche.com/css3-model" name="{local-name()}">
             <xsl:apply-templates select="@*" mode="#current"/>
-            <xsl:apply-templates select="node()" mode="#current"/>
+            <xsl:apply-templates select="node()" mode="#current">
+                <xsl:with-param name="namespaces" select="$namesapces" tunnel="yes"/>
+            </xsl:apply-templates>
         </xsl:element>
     </xsl:template>
-
+    
+    <xsl:template match="simple_atrule[TOKEN = '@namespace']" mode="cssm:parse">
+        <namespace>
+            <xsl:if test="IDENT">
+                <xsl:attribute name="name" select="IDENT"/>
+            </xsl:if>
+            <xsl:attribute name="uri" select="QUOTED_STRING/(STRING_CONTENT1|STRING_CONTENT2)/string(.)"/>
+        </namespace>
+    </xsl:template>
+    
     <xsl:template match="rule" mode="cssm:parse">
         <rule>
             <xsl:apply-templates select="selectors_group" mode="#current"/>
@@ -130,9 +145,40 @@
     </xsl:template>
 
     <xsl:template match="type_selector" mode="cssm:parse">
+        <xsl:param name="namespaces" tunnel="yes" as="element(cssm:namespace)*"/>
+        <xsl:choose>
+            <xsl:when test="not(namespace_prefix) and $namespaces[not(@name)]">
+                <xsl:attribute name="namespace" select="$namespaces[not(@name)]/@uri"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="namespace_prefix" mode="#current"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
         <xsl:attribute name="name" select="element_name"/>
+        
     </xsl:template>
-
+    
+    <xsl:template match="namespace_prefix" mode="cssm:parse">
+        <xsl:param name="namespaces" tunnel="yes" as="element(cssm:namespace)*"/>
+        <xsl:variable name="prefix" select="(IDENT, TOKEN[. = '*'])[1]"/>
+        <xsl:variable name="namespace" select="$namespaces[@name = $prefix]"/>
+        <xsl:choose>
+            <xsl:when test="$prefix = '*'"/>
+            <xsl:when test="not($prefix)">
+                <xsl:attribute name="namespace" select="''"/>
+            </xsl:when>
+            <xsl:when test="not($namespace)">
+                <xsl:sequence select="error(xs:QName('cssm:undeclared-prefix'), 'Undeclared namespace prefix ' || $prefix || '.')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:attribute name="namespace" select="$namespace/@uri"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    
+    
     <xsl:template match="universal | TOKEN | S" mode="cssm:parse"/>
 
     <xsl:template match="attrib" mode="cssm:parse">
