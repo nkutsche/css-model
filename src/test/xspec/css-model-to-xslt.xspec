@@ -192,32 +192,32 @@
             <x:scenario label="selector: *">
                 <x:variable name="css">*{}</x:variable>
                 <x:variable name="match" select="()"/>
-                <x:like label="cssm:template-match"></x:like>
+                <x:like label="cssm:template-match"/>
             </x:scenario>
             <x:scenario label="selector: *::before">
                 <x:variable name="css">*::before{}</x:variable>
                 <x:variable name="match" select="'*'"/>
-                <x:like label="cssm:template-match"></x:like>
+                <x:like label="cssm:template-match"/>
             </x:scenario>
             <x:scenario label="selector: div::before">
                 <x:variable name="css">div::before{}</x:variable>
                 <x:variable name="match" select="'*:div'"/>
-                <x:like label="cssm:template-match"></x:like>
+                <x:like label="cssm:template-match"/>
             </x:scenario>
             <x:scenario label="selector: div">
                 <x:variable name="css">div{}</x:variable>
                 <x:variable name="match" select="()"/>
-                <x:like label="cssm:template-match"></x:like>
+                <x:like label="cssm:template-match"/>
             </x:scenario>
             <x:scenario label="selector: div::before p">
                 <x:variable name="css">div::before p{}</x:variable>
                 <x:variable name="match" select="()"/>
-                <x:like label="cssm:template-match"></x:like>
+                <x:like label="cssm:template-match"/>
             </x:scenario>
             <x:scenario label="selector: div::before p::before">
                 <x:variable name="css">div::before p::before{}</x:variable>
                 <x:variable name="match" select="'*:div[false()]//*:p'"/>
-                <x:like label="cssm:template-match"></x:like>
+                <x:like label="cssm:template-match"/>
             </x:scenario>
         </x:scenario>
 
