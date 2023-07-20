@@ -3,6 +3,10 @@
 
 ### Current Snapshot Version
 
+* Namespace support completed
+* Changes on function signature of:
+    * `cssm:parse` 
+    * `cssm:create-matching-rule-catalog` 
 
 ### Version 0.2.1
 
