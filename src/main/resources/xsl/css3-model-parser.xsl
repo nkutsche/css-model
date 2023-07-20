@@ -13,16 +13,16 @@
     </xsl:function>
     <xsl:function name="cssm:parse" as="element()" visibility="final">
         <xsl:param name="css" as="xs:string"/>
-        <xsl:param name="config" as="map(*)"/>
+        <xsl:param name="config" as="map(xs:string, item()?)"/>
         
-        <xsl:variable name="stlyesheet-specificity" select="($config?stlyesheet-specificity, 0)[1]"/>
+        <xsl:variable name="stylesheet-specificity" select="($config?stylesheet-specificity, 0)[1]"/>
         <xsl:variable name="strict" select="($config?strict, true())[1]"/>
         <xsl:variable name="default-namespace" select="($config?default-namespace, '*')[1]"/>
         
         <xsl:variable name="parsed" select="cssp:parse-css($css)"/>
         <xsl:variable name="model" as="element()">
             <xsl:apply-templates select="$parsed" mode="cssm:parse">
-                <xsl:with-param name="stlyesheet-specificity" select="$stlyesheet-specificity" tunnel="yes"/>
+                <xsl:with-param name="stylesheet-specificity" select="$stylesheet-specificity" tunnel="yes"/>
                 <xsl:with-param name="default-namespace" select="$default-namespace" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
@@ -107,7 +107,7 @@
     </xsl:template>
 
     <xsl:template match="selector" mode="cssm:parse">
-        <xsl:param name="stlyesheet-specificity" as="xs:integer" tunnel="yes"/>
+        <xsl:param name="stylesheet-specificity" as="xs:integer" tunnel="yes"/>
         <xsl:variable name="selects" as="element(cssm:select)*">
             <xsl:for-each-group select="node()" group-starting-with="combinator">
                 
@@ -127,7 +127,7 @@
                 </xsl:apply-templates>
             </xsl:for-each-group>
         </xsl:variable>
-        <selector specificity="{cssm:specificity($stlyesheet-specificity, $selects)}">
+        <selector specificity="{cssm:specificity($stylesheet-specificity, $selects)}">
             <xsl:sequence select="$selects"/>
         </selector>
     </xsl:template>
