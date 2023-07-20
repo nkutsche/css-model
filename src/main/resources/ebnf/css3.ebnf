@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 css      ::= S* ( (  rule | simple_atrule | import | mediaquery | printcssquery | pagequery | COMMENT) S* )*
-simple_atrule  ::= ('@charset'|'@namespace') S+ QUOTED_STRING S* ';' 
+simple_atrule  ::= ('@charset'|'@namespace' (S+ IDENT)?) S+ QUOTED_STRING S* ';' 
 import ::= '@import' S+ ( QUOTED_STRING | URL ) S* ';'
 rule     ::= selectors_group S? '{' S* (COMMENT? S* declaration ( S? ';' S? declaration?)* ';'? S?)* COMMENT* S* '}'
 printcssquery ::= printcssrule S? '{' ( S? COMMENT* S? (pagequery| COMMENT|query_declaration) S*)* S? '}'
