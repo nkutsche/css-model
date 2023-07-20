@@ -26,7 +26,7 @@
         </x:scenario>
         <x:scenario label="selector: div">
             <x:variable name="css">div {}</x:variable>
-            <x:variable name="match">div</x:variable>
+            <x:variable name="match">*:div</x:variable>
             <x:like label="cssm:template-match"></x:like>
         </x:scenario>
         <x:scenario label="selector: .class1">
@@ -46,43 +46,43 @@
         </x:scenario>
         <x:scenario label="selector: div p">
             <x:variable name="css">div p {}</x:variable>
-            <x:variable name="match">div//p</x:variable>
+            <x:variable name="match">*:div//*:p</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: div > p">
             <x:variable name="css">div > p {}</x:variable>
-            <x:variable name="match">div/p</x:variable>
+            <x:variable name="match">*:div/*:p</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: div + p">
             <x:variable name="css">div + p {}</x:variable>
-            <x:variable name="match">p[preceding-sibling::*[1]/self::div]</x:variable>
+            <x:variable name="match">*:p[preceding-sibling::*[1]/self::*:div]</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: div ~ p">
             <x:variable name="css">div ~ p {}</x:variable>
-            <x:variable name="match">p[preceding-sibling::div]</x:variable>
+            <x:variable name="match">*:p[preceding-sibling::*:div]</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: sect div + div ~ p">
             <x:variable name="css">sect div + div ~ p {}</x:variable>
-            <x:variable name="match">sect//p[preceding-sibling::div[preceding-sibling::*[1]/self::div]]</x:variable>
+            <x:variable name="match">*:sect//*:p[preceding-sibling::*:div[preceding-sibling::*[1]/self::*:div]]</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: sect div + div ~ p > foo ~ bar">
             <x:variable name="css">sect div + div ~ p > foo ~ bar {}</x:variable>
             <x:variable name="match"
-                >sect//p[preceding-sibling::div[preceding-sibling::*[1]/self::div]]/bar[preceding-sibling::foo]</x:variable>
+                >*:sect//*:p[preceding-sibling::*:div[preceding-sibling::*[1]/self::*:div]]/*:bar[preceding-sibling::*:foo]</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: p[attr]">
             <x:variable name="css">p[attr] {}</x:variable>
-            <x:variable name="match">p[@attr]</x:variable>
+            <x:variable name="match">*:p[@attr]</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: p[attr = 'equal']">
             <x:variable name="css">p[attr = 'equal'] {}</x:variable>
-            <x:variable name="match">p[@attr = 'equal']</x:variable>
+            <x:variable name="match">*:p[@attr = 'equal']</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector: *[attr *= 'substring']">
@@ -113,13 +113,13 @@
         
         <x:scenario label="selector: div:first-child:last-of-type p:empty">
             <x:variable name="css">div:first-child:last-of-type p:empty {}</x:variable>
-            <x:variable name="match">div[not(preceding-sibling::*)][not(following-sibling::*/name() = name(.))]//p[empty(*|text()[normalize-space(.) != ''])]</x:variable>
+            <x:variable name="match">*:div[not(preceding-sibling::*)][not(following-sibling::*/name() = name(.))]//*:p[empty(*|text()[normalize-space(.) != ''])]</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         
         <x:scenario label="selector: div:first-child p">
             <x:variable name="css">div:first-child p {}</x:variable>
-            <x:variable name="match">div[not(preceding-sibling::*)]//p</x:variable>
+            <x:variable name="match">*:div[not(preceding-sibling::*)]//*:p</x:variable>
             <x:like label="cssm:template-match"/>
         </x:scenario>
         <x:scenario label="selector with not()">
@@ -130,7 +130,7 @@
             </x:scenario>
             <x:scenario label="*:not(p)">
                 <x:variable name="css">*:not(p) {}</x:variable>
-                <x:variable name="match">*[not(self::p)]</x:variable>
+                <x:variable name="match">*[not(self::*:p)]</x:variable>
                 <x:like label="cssm:template-match"/>
             </x:scenario>
             <x:scenario label="*:not(.class)">
@@ -169,7 +169,7 @@
             </x:scenario>
             <x:scenario label="selector: div::before">
                 <x:variable name="css">div::before{}</x:variable>
-                <x:variable name="match" select="'div'"/>
+                <x:variable name="match" select="'*:div'"/>
                 <x:like label="cssm:template-match"></x:like>
             </x:scenario>
             <x:scenario label="selector: div">
@@ -184,7 +184,7 @@
             </x:scenario>
             <x:scenario label="selector: div::before p::before">
                 <x:variable name="css">div::before p::before{}</x:variable>
-                <x:variable name="match" select="'div[false()]//p'"/>
+                <x:variable name="match" select="'*:div[false()]//*:p'"/>
                 <x:like label="cssm:template-match"></x:like>
             </x:scenario>
         </x:scenario>
