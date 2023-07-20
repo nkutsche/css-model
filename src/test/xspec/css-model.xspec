@@ -599,6 +599,192 @@
                         </css>
                     </x:expect>
                 </x:scenario>
+                <x:scenario label="with namespaces">
+                    
+                    <x:scenario label="pfx|element">
+                        <x:call>
+                            <x:param select="string(.)">
+                                @namespace pfx 'http://www.example.com';
+                                pfx|element {}</x:param>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <namespace name="pfx" uri="http://www.example.com"/>
+                                <rule>
+                                    <selector specificity="0 0 0 1">
+                                        <select namespace="http://www.example.com" name="element"/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+
+                    <x:scenario label="|element">
+                        <x:call>
+                            <x:param select="string(.)">|element {}</x:param>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <rule>
+                                    <selector specificity="0 0 0 1">
+                                        <select namespace="" name="element"/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+                    
+                    <x:scenario label="|*">
+                        <x:call>
+                            <x:param select="string(.)">|* {}</x:param>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <rule>
+                                    <selector specificity="0 0 0 0">
+                                        <select namespace=""/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+
+                    <x:scenario label="*|*">
+                        <x:call>
+                            <x:param select="string(.)">*|* {}</x:param>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <rule>
+                                    <selector specificity="0 0 0 0">
+                                        <select/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+
+
+                    <x:scenario label="pfx|*">
+                        <x:call>
+                            <x:param select="string(.)">
+                                @namespace pfx 'http://www.example.com';
+                                pfx|* {}</x:param>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <namespace name="pfx" uri="http://www.example.com"/>
+                                <rule>
+                                    <selector specificity="0 0 0 0">
+                                        <select namespace="http://www.example.com"/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+
+                    <x:scenario label="element (with default namespace)">
+                        <x:call>
+                            <x:param select="string(.)">
+                                @namespace 'http://www.example.com';
+                                element {}</x:param>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <namespace uri="http://www.example.com"/>
+                                <rule>
+                                    <selector specificity="0 0 0 1">
+                                        <select namespace="http://www.example.com" name="element"/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+
+                    <x:scenario label="element (with predefined default namespace)">
+                        <x:call>
+                            <x:param select="string(.)">element {}</x:param>
+                            <x:param select="map{'default-namespace' : 'http://www.default-namespace.com'}"/>
+                        </x:call>
+                        <x:expect label="result model object">
+                            <css>
+                                <rule>
+                                    <selector specificity="0 0 0 1">
+                                        <select namespace="http://www.default-namespace.com" name="element"/>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+                    
+                    <x:scenario label="*:not(pfx|element)">
+                        <x:call>
+                            <x:param select="string(.)">
+                                @namespace pfx 'http://www.example.com';
+                                *:not(pfx|element) {}</x:param>
+                        </x:call>
+                        <x:expect label="rule selector">
+                            <css>
+                                <namespace name="pfx" uri="http://www.example.com" />
+                                <rule>
+                                    <selector specificity="0 0 0 1">
+                                        <select>
+                                            <not name="element" namespace="http://www.example.com"/>
+                                        </select>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+
+                    <x:scenario label="*:not(|element)">
+                        <x:call>
+                            <x:param select="string(.)">*:not(|element) {}</x:param>
+                        </x:call>
+                        <x:expect label="rule selector">
+                            <css>
+                                <rule>
+                                    <selector specificity="0 0 0 1">
+                                        <select>
+                                            <not name="element" namespace=""/>
+                                        </select>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+                    
+                    <x:scenario label="*:not(pfx|*)">
+                        <x:call>
+                            <x:param select="string(.)">
+                                @namespace pfx 'http://www.example.com';
+                                *:not(pfx|*) {}</x:param>
+                        </x:call>
+                        <x:expect label="rule selector">
+                            <css>
+                                <namespace name="pfx" uri="http://www.example.com" />
+                                <rule>
+                                    <selector specificity="0 0 0 0">
+                                        <select>
+                                            <not namespace="http://www.example.com"/>
+                                        </select>
+                                    </selector>
+                                    <property-set/>
+                                </rule>
+                            </css>
+                        </x:expect>
+                    </x:scenario>
+                    
+                </x:scenario>
             </x:scenario>
             <x:scenario label="multiple selectors">
                 <x:scenario label="#id1, #id2">

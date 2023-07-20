@@ -8,8 +8,10 @@
     
     <x:variable name="beforeAfter" select="()"/>
     
+    <x:variable name="default-namespace" select="'*'"/>
+    
     <x:scenario label="cssm:template-match" shared="yes">
-        <x:variable name="selector" select="cssm:parse($css)//cssm:rule/cssm:selector"/>
+        <x:variable name="selector" select="cssm:parse($css, map{'default-namespace' : $default-namespace})//cssm:rule/cssm:selector"/>
         <x:call>
             <x:param select="$selector"/>
             <x:param select="$beforeAfter"/>
@@ -153,6 +155,36 @@
                 <x:variable name="match">*[not(self::*[tokenize(@class, '\s') = 'class'])][not(self::*[@id = 'id'])]</x:variable>
                 <x:like label="cssm:template-match"/>
             </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="selector with namespace">
+            <x:variable name="ns-decl">@namespace pfx 'example.com';</x:variable>
+            <x:variable name="default-namespace" select="'default.com'"/>
+            
+            <x:scenario label="selector: pfx|div">
+                <x:variable name="css" select="$ns-decl || .">pfx|div {}</x:variable>
+                <x:variable name="match">Q{example.com}div</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+
+            <x:scenario label="selector: div">
+                <x:variable name="css">div {}</x:variable>
+                <x:variable name="match">Q{default.com}div</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+
+            <x:scenario label="selector: |div">
+                <x:variable name="css">|div {}</x:variable>
+                <x:variable name="match">Q{}div</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+
+            <x:scenario label="selector: *|div">
+                <x:variable name="css">*|div {}</x:variable>
+                <x:variable name="match">*:div</x:variable>
+                <x:like label="cssm:template-match"/>
+            </x:scenario>
+            
         </x:scenario>
         
         <x:scenario label="with before">
