@@ -771,8 +771,7 @@
                     <x:param select="cssm:parse(.)" position="1">
                         *:first-child::before {prop:spec-value}
                     </x:param>
-                    <x:param position="3" select="true()"/>
-                    <x:param position="4" select="'before'"/>
+                    <x:param position="3" select="'before'"/>
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="5"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
@@ -794,8 +793,7 @@
                     <x:param select="cssm:parse(.)" position="1">
                         div[role = footnote]  *::before {prop:spec-value}
                     </x:param>
-                    <x:param position="3" select="true()"/>
-                    <x:param position="4" select="'before'"/>
+                    <x:param position="3" select="'before'"/>
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
@@ -822,8 +820,7 @@
                     <x:param select="cssm:parse(.)" position="1">
                         div[role = footnote] > *::before {prop:spec-value}
                     </x:param>
-                    <x:param position="3" select="true()"/>
-                    <x:param position="4" select="'before'"/>
+                    <x:param position="3" select="'before'"/>
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">
@@ -851,8 +848,7 @@
                     <x:param select="cssm:parse(.)" position="1">
                         div[role = footnote] > *:first-child::before {prop:spec-value}
                     </x:param>
-                    <x:param position="3" select="true()"/>
-                    <x:param position="4" select="'before'"/>
+                    <x:param position="3" select="'before'"/>
                 </x:call>
                 <x:expect label="map entry count" test="map:keys($x:result) => count()" select="1"/>
                 <x:expect label="rule for p" test="$x:result(($footnote//p)[1]/generate-id())">

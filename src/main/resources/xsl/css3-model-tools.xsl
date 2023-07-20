@@ -7,23 +7,15 @@
     <xsl:function name="cssm:create-matching-rule-catalog" as="map(xs:string, element(cssm:rule)*)" visibility="final">
         <xsl:param name="css" as="element(cssm:css)*"/>
         <xsl:param name="nodes" as="node()*"/>
-        <xsl:sequence select="cssm:create-matching-rule-catalog($css, $nodes, false())"/>
-    </xsl:function>
-    <xsl:function name="cssm:create-matching-rule-catalog" as="map(xs:string, element(cssm:rule)*)" visibility="final">
-        <xsl:param name="css" as="element(cssm:css)*"/>
-        <xsl:param name="nodes" as="node()*"/>
-        <xsl:param name="namespace-strict" as="xs:boolean"/>
-        
-        <xsl:sequence select="cssm:create-matching-rule-catalog($css, $nodes, $namespace-strict, ())"/>
+        <xsl:sequence select="cssm:create-matching-rule-catalog($css, $nodes, ())"/>
     </xsl:function>
     
     <xsl:function name="cssm:create-matching-rule-catalog" as="map(xs:string, element(cssm:rule)*)" visibility="final">
         <xsl:param name="css" as="element(cssm:css)*"/>
         <xsl:param name="nodes" as="node()*"/>
-        <xsl:param name="namespace-strict" as="xs:boolean"/>
         <xsl:param name="pseudo-element" as="xs:string?"/>
         
-        <xsl:variable name="as-xsl" select="cssm:as-xsl($css, $namespace-strict)"/>
+        <xsl:variable name="as-xsl" select="cssm:as-xsl($css)"/>
         
 
         <xsl:variable name="css-matches" as="map(xs:string, element(cssm:rule)*)*">

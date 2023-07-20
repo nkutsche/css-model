@@ -11,15 +11,8 @@
     
     <xsl:namespace-alias result-prefix="xsl" stylesheet-prefix="axsl"/>
     
-    
-    
     <xsl:function name="cssm:as-xsl" as="element(xsl:transform)?">
         <xsl:param name="css" as="element(cssm:css)*"/>
-        <xsl:sequence select="cssm:as-xsl($css, false())"/>
-    </xsl:function>
-    <xsl:function name="cssm:as-xsl" as="element(xsl:transform)?">
-        <xsl:param name="css" as="element(cssm:css)*"/>
-        <xsl:param name="namespace-strict" as="xs:boolean"/>
         <axsl:transform version="3.0">
             
             <axsl:mode on-multiple-match="use-last" warning-on-multiple-match="false"/>
@@ -27,9 +20,8 @@
             <axsl:mode name="Q{{http://www.nkutsche.com/css3-model}}before" on-multiple-match="use-last" warning-on-multiple-match="false"/>
             
             <axsl:output method="adaptive"/>
-            <xsl:apply-templates select="$css/cssm:rule/cssm:selector" mode="cssm:as-xsl">
-                <xsl:with-param name="namespace-strict" select="$namespace-strict"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="$css/cssm:rule/cssm:selector" mode="cssm:as-xsl"/>
+            
             
             <axsl:template match="*" priority="-10" mode="#all">
                 <axsl:apply-templates select="node()|@*" mode="#current"/>
@@ -41,7 +33,6 @@
     
     
     <xsl:template match="cssm:rule/cssm:selector" mode="cssm:as-xsl">
-        <xsl:param name="namespace-strict" as="xs:boolean" select="false()"/>
         <xsl:variable name="idx" as="xs:integer">
             <xsl:number count="cssm:selector" level="any"/>
         </xsl:variable>
@@ -57,9 +48,9 @@
             <axsl:sequence select="map{{generate-id(.) : $rule}}"/>
         </xsl:variable>
         
-        <xsl:variable name="default-match" select="cssm:template-match(., $namespace-strict)"/>
-        <xsl:variable name="before-match" select="cssm:template-match(., $namespace-strict, 'before')"/>
-        <xsl:variable name="after-match" select="cssm:template-match(., $namespace-strict, 'after')"/>
+        <xsl:variable name="default-match" select="cssm:template-match(.)"/>
+        <xsl:variable name="before-match" select="cssm:template-match(., 'before')"/>
+        <xsl:variable name="after-match" select="cssm:template-match(., 'after')"/>
         
         <xsl:if test="exists($default-match)">
             <axsl:template match="{$default-match}" priority="{$idx}">
@@ -83,13 +74,11 @@
     
     <xsl:function name="cssm:template-match" as="xs:string?">
         <xsl:param name="selector" as="element(cssm:selector)"/>
-        <xsl:param name="namespace-strict" as="xs:boolean"/>
-        <xsl:sequence select="cssm:template-match($selector, $namespace-strict, ())"/>
+        <xsl:sequence select="cssm:template-match($selector, ())"/>
     </xsl:function>
     
     <xsl:function name="cssm:template-match" as="xs:string?">
         <xsl:param name="selector" as="element(cssm:selector)"/>
-        <xsl:param name="namespace-strict" as="xs:boolean"/>
         <xsl:param name="beforeAfter" as="xs:string?"/>
         
         <xsl:variable name="last-pseudo-class" select="($selector/cssm:select[last()]/cssm:pseudo[@type = 'element']/@name, '#default')[1]"/>
@@ -109,7 +98,6 @@
                     else '' "/>
                 <xsl:apply-templates select="current-group()[last()]" mode="cssm:template-match">
                     <xsl:with-param name="is-last" select="$is-last" tunnel="yes"/>
-                    <xsl:with-param name="namespace-strict" select="$namespace-strict" tunnel="yes"/>
                 </xsl:apply-templates> 
             </xsl:for-each-group> 
         </xsl:variable>
@@ -125,14 +113,12 @@
     
     
     <xsl:template match="cssm:select" mode="cssm:template-match" priority="50">
-        <xsl:param name="namespace-strict" select="false()" as="xs:boolean" tunnel="yes"/>
         
         <xsl:value-of select="cssm:name-match(@name, @namespace)"/>
         <xsl:next-match/>
     </xsl:template>
 
     <xsl:template match="cssm:not" mode="cssm:template-match" priority="50">
-        <xsl:param name="namespace-strict" select="false()" as="xs:boolean" tunnel="yes"/>
         <xsl:variable name="name" select="cssm:name-match(@name, @namespace)"/>
         <xsl:text>[not(self::</xsl:text>
         <xsl:value-of select="$name"/>

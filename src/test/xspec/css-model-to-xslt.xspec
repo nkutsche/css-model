@@ -12,7 +12,6 @@
         <x:variable name="selector" select="cssm:parse($css)//cssm:rule/cssm:selector"/>
         <x:call>
             <x:param select="$selector"/>
-            <x:param select="true()"/>
             <x:param select="$beforeAfter"/>
         </x:call>
         <x:expect label="result match" test=" if($x:result = $match or empty($match) and empty($x:result)) then string($x:result) else ($x:result, $selector)" select="string($match)"/>

@@ -76,8 +76,7 @@ cssm:unit-value($dimension as xs:string, $defaultUnit as xs:string?) as map(xs:s
 cssm:serialize-property-value(property as element(cssm:property)) as xs:string
 cssm:serialize-property-value(property as element(cssm:property), $requires-quotes as xs:boolean, $with-important as xs:boolean) as xs:string
 cssm:create-matching-rule-catalog($css as element(cssm:css)*, $nodes as node()*) as map(xs:string, element(cssm:rule)*)
-cssm:create-matching-rule-catalog($css as element(cssm:css)*, $nodes as node()*, $namespace-strict as xs:boolean) as map(xs:string, element(cssm:rule)*)
-cssm:create-matching-rule-catalog($css as element(cssm:css)*, $nodes as node()*, $namespace-strict as xs:boolean, $pseudo-element as xs:string?) as map(xs:string, element(cssm:rule)*)
+cssm:create-matching-rule-catalog($css as element(cssm:css)*, $nodes as node()*, $pseudo-element as xs:string?) as map(xs:string, element(cssm:rule)*)
 cssm:effective-properties($css as element(cssm:css)*, $node as node()) as element(cssm:property-set)
 cssm:effective-properties($css as element(cssm:css)*, $node as node(), $merge-handler as function(element(cssm:rule)*) as element(cssm:rule)*) as element(cssm:property-set)
 cssm:effective-properties($css as element(cssm:css)*, $node as node(), $merge-handler as function(element(cssm:rule)*) as element(cssm:rule)*, $pseudo-handler as function(node(), xs:string) as xs:string*) as element(cssm:property-set)
