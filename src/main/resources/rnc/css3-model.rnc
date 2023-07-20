@@ -15,7 +15,7 @@ simple_atrule = (charset | namespaceDecl)
 
 charset = element charset {attribute name {xs:string}}
 
-namespaceDecl = element namespace {attribute uri {xs:anyURI}}
+namespaceDecl = element namespace {name?, attribute uri {xs:anyURI}}
 
 rule = element rule {selector+, property-set}
 
@@ -29,7 +29,7 @@ selectFirst = element select {selectContent}
 
 select = element select {axis, selectContent}
 
-selectContent = name?, classes?, idOrIds?, at?, (attributeMatch | pseudo | not)*
+selectContent = name?, nspace?, classes?, idOrIds?, at?, (attributeMatch | pseudo | not)*
 
 axis = attribute axis {"descendant" | "child" | "following" | "next-following"}
 
@@ -74,7 +74,7 @@ pseudo = element pseudo {
 }
 
 not = element not {
-    (name | class | id | attributeMatch | pseudo)?
+    ((name, nspace) | nspace | name | class | id | attributeMatch | pseudo)?
 }
 
 #properties
@@ -84,6 +84,8 @@ property-set = element property-set {property*}
 property = element property {important?, name, (propValueSingle | propValueList)}
 
 name = attribute name {xs:string}
+
+nspace = attribute namespace {xs:anyURI}
 
 important = attribute important {xs:boolean}
 

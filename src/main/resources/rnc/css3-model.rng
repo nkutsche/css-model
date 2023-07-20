@@ -43,6 +43,9 @@
   </define>
   <define name="namespaceDecl">
     <element name="namespace">
+      <optional>
+        <ref name="name"/>
+      </optional>
       <attribute name="uri">
         <data type="anyURI"/>
       </attribute>
@@ -89,6 +92,9 @@
   <define name="selectContent">
     <optional>
       <ref name="name"/>
+    </optional>
+    <optional>
+      <ref name="nspace"/>
     </optional>
     <optional>
       <ref name="classes"/>
@@ -223,6 +229,11 @@
     <element name="not">
       <optional>
         <choice>
+          <group>
+            <ref name="name"/>
+            <ref name="nspace"/>
+          </group>
+          <ref name="nspace"/>
           <ref name="name"/>
           <ref name="class"/>
           <ref name="id"/>
@@ -255,6 +266,11 @@
   <define name="name">
     <attribute name="name">
       <data type="string"/>
+    </attribute>
+  </define>
+  <define name="nspace">
+    <attribute name="namespace">
+      <data type="anyURI"/>
     </attribute>
   </define>
   <define name="important">
