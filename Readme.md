@@ -16,7 +16,7 @@ Currently the binaries are deployed to the public repository of data2type's Nexu
 
 This project uses the [XSLT Package Handler](https://github.com/nkutsche/xslt-package-handler). 
 
-**Node:** There is a more detailed but general description how to include modules using the XSLT Package Handler [here](https://github.com/nkutsche/xslt-package-handler#how-to-use). The following description is just a summary of the important points inclusive the project specific informations and adjustments. 
+**Note:** There is a more detailed but general description how to include modules using the XSLT Package Handler [here](https://github.com/nkutsche/xslt-package-handler#how-to-use). The following description is just a summary of the important points inclusive the project specific informations and adjustments. 
 
 ### Maven Settings
 
@@ -51,7 +51,7 @@ Add to your Maven pom.xml:
 </repositories>
 ```
 
-**IMPORTANT:** Replace `XXX` with `99`, `100` or `110` depending on if you use Saxon 9.9.x or 10.x in your project.
+**IMPORTANT:** Replace `XXX` with `99`, `100` or `110` depending on if you use Saxon 9.9.x, 10.x or 11.x in your project.
 
 ### Saxon Setup
 
