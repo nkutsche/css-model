@@ -1,7 +1,7 @@
 ## Release History
 -------------------------------
 
-### Current Snapshot Version
+### Version 0.3.0
 
 * Namespace support completed
 * Changes on function signature of:
