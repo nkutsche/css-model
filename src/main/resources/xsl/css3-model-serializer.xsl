@@ -30,9 +30,6 @@
                 <xsl:when test="$valueProvider/(self::attribute(value)|self::cssm:value)">
                     <xsl:sequence select="string($valueProvider)"/>
                 </xsl:when>
-                <xsl:when test="not($requires-quotes) and $valueProvider/(self::attribute(string)|self::cssm:string)">
-                    <xsl:sequence select="string($valueProvider)"/>
-                </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates select="$valueProvider" mode="cssm:serialize">
                         <xsl:with-param name="requires-quotes" select="$requires-quotes" tunnel="yes"/>
@@ -52,8 +49,16 @@
     <xsl:template match="@string | string" mode="cssm:serialize" priority="10">
         <xsl:param name="requires-quotes" select="true()" tunnel="yes" as="xs:boolean"/>
         <xsl:choose>
-            <xsl:when test="$requires-quotes">
-                <xsl:sequence select="'''' || . || ''''"/>
+            <xsl:when test="$requires-quotes or matches(., '\s|&quot;|''|\\')">
+                <xsl:variable name="q" select="
+                    if (matches(., '''')) then '&quot;' else ''''
+                    "/>
+                <xsl:variable name="value" select="
+                    replace(., '(\\|' || $q || ')', '\\$1')
+                    ">
+                </xsl:variable>
+                
+                <xsl:sequence select="$q || $value || $q"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
