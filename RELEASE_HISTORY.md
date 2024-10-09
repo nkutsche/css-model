@@ -1,6 +1,10 @@
 ## Release History
 -------------------------------
 
+### Version 0.3.1
+
+* Fixes escaping of string values by the property value serializer 
+
 ### Version 0.3.0
 
 * Namespace support completed
