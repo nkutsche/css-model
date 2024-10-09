@@ -3,7 +3,7 @@
     xmlns:cssm="http://www.nkutsche.com/css3-model" xmlns="http://www.nkutsche.com/css3-model"
     stylesheet="../../main/resources/xsl/css3-model-serializer.xsl">
     
-    <x:scenario label="Testing function cssm:serialize-property-value" focus="">
+    <x:scenario label="Testing function cssm:serialize-property-value">
         <x:call function="cssm:serialize-property-value"/>
         
         <x:scenario label="without quotes and important">
@@ -20,7 +20,15 @@
                 </x:call>
                 <x:expect label="result" select="'value'"/>
             </x:scenario>
-            <x:scenario label="value serialization">
+            <x:scenario label="string serialization with spaces">
+                <x:call>
+                    <x:param>
+                        <property name="prop" string="string with space"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">'string with space'</x:expect>
+            </x:scenario>
+            <x:scenario label="value list serialization">
                 <x:call>
                     <x:param>
                         <property name="property">
@@ -30,7 +38,85 @@
                         </property>
                     </x:param>
                 </x:call>
-                <x:expect label="result" select="'value1 value2 value3'"/>
+                <x:expect label="result" select="string(.)">value1 value2 value3</x:expect>
+            </x:scenario>
+            <x:scenario label="string in list serialization">
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1</string>
+                            <value>value2</value>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">value1 value2 value3</x:expect>
+            </x:scenario>
+            <x:scenario label="string in list serialization with spaces">
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1 value2</string>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">'value1 value2' value3</x:expect>
+            </x:scenario>
+            <x:scenario label="property:'value1&quot;value2' value3">
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1"value2</string>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">'value1"value2' value3</x:expect>
+            </x:scenario>
+            <x:scenario label='property:"value1&apos;value2" value3'>
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1'value2</string>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">"value1'value2" value3</x:expect>
+            </x:scenario>
+            <x:scenario label='property:"value1&apos;\"value2" value3'>
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1'"value2</string>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">"value1'\"value2" value3</x:expect>
+            </x:scenario>
+            <x:scenario label='property:"value1\value2" value3'>
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1\value2</string>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">'value1\\value2' value3</x:expect>
+            </x:scenario>
+            <x:scenario label='property:"value1\\value2" value3'>
+                <x:call>
+                    <x:param>
+                        <property name="property">
+                            <string>value1\\value2</string>
+                            <value>value3</value>
+                        </property>
+                    </x:param>
+                </x:call>
+                <x:expect label="result" select="string(.)">'value1\\\\value2' value3</x:expect>
             </x:scenario>
         </x:scenario>
         

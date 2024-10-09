@@ -1184,6 +1184,65 @@
                         </css>
                     </x:expect>
                 </x:scenario>
+                <x:scenario label="escaped-string:'foo''bar'">
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:'foo''bar'}</x:param>
+                    </x:call>
+                    <x:expect label="This is a parsing error">
+                        <ERROR b="29" e="29" s="22" xmlns="">...</ERROR>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label='escaped-string:"&apos;"'>
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:"'"}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specificity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string="'"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="escaped-string:'&quot;'">
+                    <x:call>
+                        <x:param select="string(.)">* {escaped-string:'"'}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specificity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="escaped-string" string='"'/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
+                <x:scenario label="backslash-in-value:foo\bar">
+                    <x:call>
+                        <x:param select="string(.)">* {backslash-in-value:foo\bar}</x:param>
+                    </x:call>
+                    <x:expect label="rule selector">
+                        <css>
+                            <rule>
+                                <selector specificity="...">
+                                    <select/>
+                                </selector>
+                                <property-set>
+                                    <property name="backslash-in-value" value="foo\bar"/>
+                                </property-set>
+                            </rule>
+                        </css>
+                    </x:expect>
+                </x:scenario>
             </x:scenario>
 
             <x:scenario label="attr-ref:attr(aname)">
